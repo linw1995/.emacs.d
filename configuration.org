@@ -1,0 +1,286 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Jade Lin
+#+EMAIL: linw1995@icloud.com
+
+* Package Managing
+
+Bootstrapping [[https://github.com/raxod502/straight.el][straight.el]].
+
+#+BEGIN_SRC emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	(bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+	  (url-retrieve-synchronously
+	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+END_SRC
+
+Integration with [[https://github.com/jwiegley/use-package][use-package]].
+
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'use-package)
+#+END_SRC
+
+* Editor Configuration
+
+Change cursor type.
+#+BEGIN_SRC emacs-lisp
+  (setq-default cursor-type 'bar)
+#+END_SRC
+
+Show line number.
+#+BEGIN_SRC emacs-lisp
+  (global-linum-mode 1)
+#+END_SRC
+
+Don't create backup files.
+#+BEGIN_SRC emacs-lisp
+  (setq make-backup-files nil)
+#+END_SRC
+
+Delete selection while inserting.
+#+BEGIN_SRC emacs-lisp
+  (delete-selection-mode 1)
+#+END_SRC
+
+Highlight line where cursor lying on.
+#+BEGIN_SRC emacs-lisp
+  (global-hl-line-mode 1)
+#+END_SRC
+
+* Key Binding Configuration
+
+* Shell Configuration
+
+Ensure environment variables inside Emacs look the same as in the user's shell.
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :straight t
+    :if (memq window-system '(mac ns))
+    :config
+    (exec-path-from-shell-initialize))
+#+END_SRC
+
+* Theme Configuration
+
+Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :straight t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+	  doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-one t)
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (doom-themes-neotree-config)
+    ;; or for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+#+END_SRC
+
+* MacOS MISC
+
+Dired is a directory editor on Emacs. It uses =ls= program.
+On macOS, ls does not support =--dired= option.
+Appending below codes into =.emacs= file to configure dired using =ls= without =--dired=.
+#+BEGIN_SRC emacs-lisp
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired nil))
+#+END_SRC
+
+* GUI Configuration
+
+Disable dialog box.
+#+BEGIN_SRC emacs-lisp
+  (setq use-file-dialog        nil
+	use-dialog-box         nil)
+#+END_SRC
+
+Hide toolbar.
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+#+END_SRC
+
+Hide scrollbar.
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'set-scroll-bar-mode)
+    (set-scroll-bar-mode nil))
+#+END_SRC
+
+** MacOS
+
+Make the title bar and toolbar to be transparent.
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist
+		 '(ns-transparent-titlebar . t))
+    (add-to-list 'default-frame-alist
+		 '(ns-appearance . dark)))
+#+END_SRC
+
+Change the opacity of the frame.
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist
+		 '(alpha . (100 . 100))))
+#+END_SRC
+
+* Appearance Configuration
+
+** Dashboard
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :straight t
+    :config
+    (dashboard-setup-startup-hook))
+#+END_SRC
+
+Hide the original startup screen while opening file.
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-screen t)
+#+END_SRC
+
+** Icons
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :straight t)
+#+END_SRC
+
+** Directory Tree View
+
+Use [[https://github.com/jaypei/emacs-neotree][neotree]] package.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :straight t
+    :bind ("<f8>" . neotree-toggle))
+#+END_SRC
+
+** Rainbow Delimiters
+
+Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to highlights delimiters such as parentheses, brackets or braces according to their depth.
+
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :straight t
+  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
+	 (racket-mode . rainbow-delimiters-mode)
+	 (racket-xp-mode . rainbow-delimiters-mode)
+	 (racket-repl . rainbow-delimiters-mode)))
+#+END_SRC	 
+
+* Project Managing Configuration
+
+Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :straight t
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :config
+    (projectile-mode +1)
+    (setq projectile-switch-project-action 'neotree-projectile-action))
+#+END_SRC
+
+* Productivity Tools
+
+** Completion Tools
+
+Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :straight t
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-count-format "(%d/%d) ")
+    (ivy-mode 1))
+  (use-package counsel
+    :straight t
+    :after ivy)
+  (use-package swiper
+    :straight t
+    :after ivy)
+#+END_SRC
+
+Use [[http://company-mode.github.io/][company-mode]] for text completion.
+
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :straight t
+  :config
+  (setq company-minimum-prefix-length 2)
+  (setq company-idle-delay 0.1)
+  (setq company-tooltip-align-annotations t)
+  :hook ((emacs-lisp-mode . company-mode)
+	 (racket-mode . company-mode)
+	 (racket-xp-mode . company-mode)
+	 (racket-repl-mode . company-mode)))
+#+END_SRC
+
+** Editing Tools
+
+Paredit is a minor mode for performing structured editing of S-expression data.
+Paredit helps keep parentheses balanced and adds many keys for moving S-expressions and moving around in S-expressions.
+
+#+BEGIN_SRC emacs-lisp
+(use-package paredit
+  :straight t
+  :hook ((emacs-lisp-mode . paredit-mode)
+	 (racket-mode . paredit-mode)))
+#+END_SRC
+
+* Programing Configuration
+
+
+** Racket
+
+#+BEGIN_SRC emacs-lisp
+(use-package racket-mode
+  :straight t
+  :hook (racket-mode . racket-xp-mode)
+  :bind (:map racket-mode-map
+	      ;; overwrites the default key binding of racket-mode
+	      ("M-." . racket-xp-visit-definition)
+	      ("C-c C-d" . racket-xp-documentation)
+	      ("C-c C-." . racket-xp-describe))
+  :config
+  ;; don't show the pos-tip, either the pseudo tip
+  (setq racket-show-functions '(racket-show-echo-area)))
+#+END_SRC
+
+** Org
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ob-racket
+    :straight (:host github :repo "linw1995/emacs-ob-racket")
+    :config
+    (org-babel-do-load-languages 'org-babel-load-languages
+				 '((racket . t))))
+  ;; (use-package ob-racket
+  ;;   :load-path "~/Documents/me/emacs-ob-racket/")
+  (setq org-adapt-indentation nil)
+#+END_SRC
+
+Use htmlize to support exporting code with syntax highlighting.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    :straight t)
+#+END_SRC    
