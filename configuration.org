@@ -253,6 +253,15 @@ Paredit helps keep parentheses balanced and adds many keys for moving S-expressi
 	   (racket-mode . paredit-mode)))
 #+END_SRC
 
+** Version Control Tools
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :straight t
+    :config
+    (global-set-key (kbd "C-x g") 'magit-status))
+#+END_SRC
+
 * Programing Configuration
 
 ** Racket
