@@ -181,12 +181,12 @@ Use [[https://github.com/jaypei/emacs-neotree][neotree]] package.
 Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to highlights delimiters such as parentheses, brackets or braces according to their depth.
 
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :straight t
-  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
-	 (racket-mode . rainbow-delimiters-mode)
-	 (racket-xp-mode . rainbow-delimiters-mode)
-	 (racket-repl . rainbow-delimiters-mode)))
+  (use-package rainbow-delimiters
+    :straight t
+    :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
+	   (racket-mode . rainbow-delimiters-mode)
+	   (racket-xp-mode . rainbow-delimiters-mode)
+	   (racket-repl . rainbow-delimiters-mode)))
 #+END_SRC	 
 
 * Project Managing Configuration
@@ -229,16 +229,16 @@ Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer comple
 Use [[http://company-mode.github.io/][company-mode]] for text completion.
 
 #+BEGIN_SRC emacs-lisp
-(use-package company
-  :straight t
-  :config
-  (setq company-minimum-prefix-length 2)
-  (setq company-idle-delay 0.1)
-  (setq company-tooltip-align-annotations t)
-  :hook ((emacs-lisp-mode . company-mode)
-	 (racket-mode . company-mode)
-	 (racket-xp-mode . company-mode)
-	 (racket-repl-mode . company-mode)))
+  (use-package company
+    :straight t
+    :config
+    (setq company-minimum-prefix-length 2)
+    (setq company-idle-delay 0.1)
+    (setq company-tooltip-align-annotations t)
+    :hook ((emacs-lisp-mode . company-mode)
+	   (racket-mode . company-mode)
+	   (racket-xp-mode . company-mode)
+	   (racket-repl-mode . company-mode)))
 #+END_SRC
 
 ** Editing Tools
@@ -247,42 +247,44 @@ Paredit is a minor mode for performing structured editing of S-expression data.
 Paredit helps keep parentheses balanced and adds many keys for moving S-expressions and moving around in S-expressions.
 
 #+BEGIN_SRC emacs-lisp
-(use-package paredit
-  :straight t
-  :hook ((emacs-lisp-mode . paredit-mode)
-	 (racket-mode . paredit-mode)))
+  (use-package paredit
+    :straight t
+    :hook ((emacs-lisp-mode . paredit-mode)
+	   (racket-mode . paredit-mode)))
 #+END_SRC
 
 * Programing Configuration
 
-
 ** Racket
 
 #+BEGIN_SRC emacs-lisp
-(use-package racket-mode
-  :straight t
-  :hook (racket-mode . racket-xp-mode)
-  :bind (:map racket-mode-map
-	      ;; overwrites the default key binding of racket-mode
-	      ("M-." . racket-xp-visit-definition)
-	      ("C-c C-d" . racket-xp-documentation)
-	      ("C-c C-." . racket-xp-describe))
-  :config
-  ;; don't show the pos-tip, either the pseudo tip
-  (setq racket-show-functions '(racket-show-echo-area)))
+  (use-package racket-mode
+    :straight t
+    :hook (racket-mode . racket-xp-mode)
+    :bind (:map racket-mode-map
+		;; overwrites the default key binding of racket-mode
+		("M-." . racket-xp-visit-definition)
+		("C-c C-d" . racket-xp-documentation)
+		("C-c C-." . racket-xp-describe))
+    :config
+    ;; don't show the pos-tip, either the pseudo tip
+    (setq racket-show-functions '(racket-show-echo-area)))
 #+END_SRC
 
 ** Org
 
 #+BEGIN_SRC emacs-lisp
   (use-package ob-racket
-    :straight (:host github :repo "linw1995/emacs-ob-racket")
+    :straight
+    (:host github :repo "linw1995/emacs-ob-racket")
     :config
     (org-babel-do-load-languages 'org-babel-load-languages
 				 '((racket . t))))
-  ;; (use-package ob-racket
-  ;;   :load-path "~/Documents/me/emacs-ob-racket/")
-  (setq org-adapt-indentation nil)
+
+  (defun org-mode-configuration ()
+    (setq org-adapt-indentation nil))
+  (add-hook 'org-mode-hook 'org-mode-configuration)
+
 #+END_SRC
 
 Use htmlize to support exporting code with syntax highlighting.
