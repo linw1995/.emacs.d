@@ -282,7 +282,8 @@ Paredit helps keep parentheses balanced and adds many keys for moving S-expressi
 				 '((racket . t))))
 
   (defun org-mode-configuration ()
-    (setq org-adapt-indentation nil))
+    (setq org-adapt-indentation nil)
+    (setq org-catch-invisible-edits 'smart))
   (add-hook 'org-mode-hook 'org-mode-configuration)
 
 #+END_SRC
