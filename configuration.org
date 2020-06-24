@@ -72,7 +72,8 @@ Ensure environment variables inside Emacs look the same as in the user's shell.
     (exec-path-from-shell-initialize))
 #+END_SRC
 
-* Theme Configuration
+* Appearance Configuration
+** Theme Configuration
 
 Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
 #+BEGIN_SRC emacs-lisp
@@ -94,18 +95,8 @@ Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
     (doom-themes-org-config))
 #+END_SRC
 
-* MacOS MISC
-
-Dired is a directory editor on Emacs. It uses =ls= program.
-On macOS, ls does not support =--dired= option.
-Appending below codes into =.emacs= file to configure dired using =ls= without =--dired=.
-#+BEGIN_SRC emacs-lisp
-  (when (string= system-type "darwin")
-    (setq dired-use-ls-dired nil))
-#+END_SRC
-
-* GUI Configuration
-
+** GUI Configuration
+*** Common
 Disable dialog box.
 #+BEGIN_SRC emacs-lisp
   (setq use-file-dialog        nil
@@ -124,7 +115,7 @@ Hide scrollbar.
     (set-scroll-bar-mode nil))
 #+END_SRC
 
-** MacOS
+*** MacOS
 
 Make the title bar and toolbar to be transparent.
 #+BEGIN_SRC emacs-lisp
@@ -141,8 +132,6 @@ Change the opacity of the frame.
     (add-to-list 'default-frame-alist
 		 '(alpha . (100 . 100))))
 #+END_SRC
-
-* Appearance Configuration
 
 ** Dashboard
 
@@ -203,7 +192,6 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
 #+END_SRC
 
 * Productivity Tools
-
 ** Completion Tools
 
 Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion. <<Counsel Configuration>>
@@ -263,7 +251,6 @@ Paredit helps keep parentheses balanced and adds many keys for moving S-expressi
 #+END_SRC
 
 * Programing Configuration
-
 ** Racket
 
 #+BEGIN_SRC emacs-lisp
@@ -312,4 +299,14 @@ See also [[Counsel Configuration]].
     (setq org-goto-interface 'outline-path-completion)
     (setq org-outline-path-complete-in-steps nil))
   (add-hook 'org-mode-hook 'org-goto-configuration)
+#+END_SRC
+* Misc
+** MacOS
+
+Dired is a directory editor on Emacs. It uses =ls= program.
+On macOS, ls does not support =--dired= option.
+Appending below codes into =.emacs= file to configure dired using =ls= without =--dired=.
+#+BEGIN_SRC emacs-lisp
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired nil))
 #+END_SRC
