@@ -206,7 +206,7 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
 
 ** Completion Tools
 
-Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion.
+Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion. <<Counsel Configuration>>
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
@@ -218,10 +218,12 @@ Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer comple
     (ivy-mode 1))
   (use-package counsel
     :straight t
-    :after ivy)
+    :after ivy
+    :bind ("M-x" . 'counsel-M-x))
   (use-package swiper
     :straight t
-    :after ivy)
+    :after ivy
+    :bind ("C-s" . 'swiper))
 #+END_SRC
 
 Use [[http://company-mode.github.io/][company-mode]] for text completion.
@@ -289,3 +291,13 @@ Use htmlize to support exporting code with syntax highlighting.
   (use-package htmlize
     :straight t)
 #+END_SRC    
+
+Configure =org-goto= with counsel. [[https://emacs.stackexchange.com/a/32625/29268][Solution is copyed from stackoverflow.]]
+See also [[Counsel Configuration]].
+
+#+BEGIN_SRC emacs-lisp
+  (defun org-goto-configuration ()
+    (setq org-goto-interface 'outline-path-completion)
+    (setq org-outline-path-complete-in-steps nil))
+  (add-hook 'org-mode-hook 'org-goto-configuration)
+#+END_SRC
