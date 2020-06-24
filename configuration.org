@@ -54,6 +54,11 @@ Highlight line where cursor lying on.
   (global-hl-line-mode 1)
 #+END_SRC
 
+Wrap lines at word boundary.
+#+BEGIN_SRC emacs-lisp
+  (global-visual-line-mode 1)
+#+END_SRC
+
 * Key Binding Configuration
 
 * Shell Configuration
