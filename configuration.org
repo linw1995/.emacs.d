@@ -231,6 +231,13 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
 
 ** Editing Tools
 
+Use the built-in version of Org.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :straight (:type built-in))
+#+END_SRC
+
 Paredit is a minor mode for performing structured editing of S-expression data.
 Paredit helps keep parentheses balanced and adds many keys for moving S-expressions and moving around in S-expressions.
 
