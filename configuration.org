@@ -257,6 +257,16 @@ Paredit helps keep parentheses balanced and adds many keys for moving S-expressi
     (global-set-key (kbd "C-x g") 'magit-status))
 #+END_SRC
 
+** GTD
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-journal
+    :straight t
+    :config
+    (setq org-journal-dir "~/Documents/me/log")
+    (setq org-journal-enable-agenda-integration t))
+#+END_SRC
+
 * Programing Configuration
 ** Racket
 
