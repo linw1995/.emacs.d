@@ -16,3 +16,24 @@
 *.~undo-tree
 
 # End of https://www.toptal.com/developers/gitignore/api/elisp
+
+# Autosave files
+\#*\#
+
+# Org-configuration
+configuration.el
+configuration.html
+configuration.org_archive
+
+# Straight
+straight/
+
+# Transient
+transient/
+
+# Misc
+url/
+elpa/
+projectile-bookmarks.eld
+racket-mode/
+recentf
