@@ -196,6 +196,10 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
 
 Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion. <<Counsel Configuration>>
 
+*** Replace isearch with swiper
+
+Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, which bind with =<C-r>= in local keymaps =swiper-map=, is copyed from [[https://github.com/abo-abo/swiper/issues/1172#issuecomment-633148859][Issue's comment commented by SreenivasVRao from abo-abo/swiper#1172]].
+
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
     :straight t
@@ -211,7 +215,17 @@ Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer comple
   (use-package swiper
     :straight t
     :after ivy
-    :bind ("C-s" . 'swiper))
+    :config
+    (defun swiper-C-r (&optional arg)
+      "Move cursor vertically down ARG candidates. If the input is empty, select the previous history element instead."
+      (interactive "p")
+      (if (string= ivy-text "")
+	  (ivy-next-history-element 1)
+	(ivy-previous-line arg)))
+    :bind (("C-s" . 'swiper)
+	   ("C-r" . 'swiper)
+	   :map swiper-map
+	   ("C-r" . 'swiper-C-r)))
 #+END_SRC
 
 Use [[http://company-mode.github.io/][company-mode]] for text completion.
