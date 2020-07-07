@@ -220,7 +220,7 @@ Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, whi
       "Move cursor vertically down ARG candidates. If the input is empty, select the previous history element instead."
       (interactive "p")
       (if (string= ivy-text "")
-	  (ivy-next-history-element 1)
+	  (ivy-previous-history-element 1)
 	(ivy-previous-line arg)))
     :bind (("C-s" . 'swiper)
 	   ("C-r" . 'swiper)
