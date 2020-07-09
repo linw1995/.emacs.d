@@ -174,8 +174,7 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
     :straight t
     :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
 	   (racket-mode . rainbow-delimiters-mode)
-	   (racket-xp-mode . rainbow-delimiters-mode)
-	   (racket-repl . rainbow-delimiters-mode)))
+	   (racket-repl-mode . rainbow-delimiters-mode)))
 #+END_SRC	 
 
 * Project Managing Configuration
@@ -239,7 +238,6 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
     (setq company-tooltip-align-annotations t)
     :hook ((emacs-lisp-mode . company-mode)
 	   (racket-mode . company-mode)
-	   (racket-xp-mode . company-mode)
 	   (racket-repl-mode . company-mode)))
 #+END_SRC
 
@@ -261,7 +259,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package paredit
     :straight t
     :hook ((emacs-lisp-mode . paredit-mode)
-	   (racket-mode . paredit-mode))
+	   (racket-mode . paredit-mode)
+	   (racket-repl-mode . paredit-mode))
     :config
     (define-paredit-pair ?\（ ?\） "full-round")
     (define-paredit-pair ?\【 ?\】 "full-square")
