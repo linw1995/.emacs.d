@@ -251,7 +251,7 @@ Use the built-in version of Org.
 #+END_SRC
 
 Paredit is a minor mode for performing structured editing of S-expression data.
-Paredit helps keep parentheses balanced and adds many keys for moving S-expressions and moving around in S-expressions. See [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][The Animated Guide to Paredit]] for more detials.
+Paredit helps keep parentheses balanced and adds many keys for moving S-expressions and moving around in S-expressions. See [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][The Animated Guide to Paredit]] for more details.
 
 Using =define-paredit-pair= macro to define full-width round, square and curly pairs, will generate some helpfull functions. And bind their opening and closing functions into local keymaps =paredit-mode-map=.
 
