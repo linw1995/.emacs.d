@@ -307,7 +307,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+BEGIN_SRC emacs-lisp
   (use-package ob-racket
     :straight
-    (:host github :repo "linw1995/emacs-ob-racket")
+    (:host github :repo "hasu/emacs-ob-racket")
     :config
     (org-babel-do-load-languages 'org-babel-load-languages
 				 '((racket . t))))
@@ -316,7 +316,6 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     (setq org-adapt-indentation nil)
     (setq org-catch-invisible-edits 'smart))
   (add-hook 'org-mode-hook 'org-mode-configuration)
-
 #+END_SRC
 
 Use htmlize to support exporting code with syntax highlighting.

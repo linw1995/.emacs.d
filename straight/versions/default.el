@@ -7,7 +7,7 @@
  ("emacs-htmlize" . "86f22f211e9230857197c42a9823d3f05381deed")
  ("emacs-memoize" . "51b075935ca7070f62fae1d69fe0ff7d8fa56fdd")
  ("emacs-neotree" . "5e1271655170f4cdc6849258e383c548a4e6e3d0")
- ("emacs-ob-racket" . "890bdc889187930ede1d9398f6041fef007e9a7b")
+ ("emacs-ob-racket" . "577d4c3c09e5dd04de969002ebfea4513a618c82")
  ("emacsmirror-mirror" . "5d8df117215e4d7e816bd63672cd467e532c662d")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("exec-path-from-shell" . "e1f14450f172d29a0024806404dfe4b70bfcd371")
