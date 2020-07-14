@@ -15,6 +15,7 @@
  ("gnu-elpa-mirror" . "ccc0196a68462c1b80f37fa588697fb19b8059bb")
  ("magit" . "0123e377eb1187f1e72c23c7147677f23e0420d7")
  ("melpa" . "ca065538aa80cd33b08092d7787c6b4a1754fb31")
+ ("multiple-cursors.el" . "b880554d04b8f61165afba7d4de19ac9e39bb7ab")
  ("org-journal" . "919b74d99e9552ffed1dfe19df877b87444492f4")
  ("page-break-lines" . "314b397910b3d16bb7cbcc25098696348e678080")
  ("paredit" . "8330a41e8188fe18d3fa805bb9aa529f015318e8")

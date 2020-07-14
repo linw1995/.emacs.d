@@ -59,6 +59,12 @@ Wrap lines at word boundary.
   (global-visual-line-mode 1)
 #+END_SRC
 
+Multi-cursors support.
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :straight t)
+#+END_SRC
+
 * Key Binding Configuration
 
 * Shell Configuration
