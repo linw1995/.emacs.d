@@ -13,7 +13,7 @@
  ("exec-path-from-shell" . "e1f14450f172d29a0024806404dfe4b70bfcd371")
  ("faceup" . "6c92dad56a133e14e7b27831e1bcf9b3a71ff154")
  ("gnu-elpa-mirror" . "ccc0196a68462c1b80f37fa588697fb19b8059bb")
- ("magit" . "0123e377eb1187f1e72c23c7147677f23e0420d7")
+ ("magit" . "dc8a24b4cdb4c6371d3f52a5105f9887bbcc371b")
  ("melpa" . "ca065538aa80cd33b08092d7787c6b4a1754fb31")
  ("multiple-cursors.el" . "b880554d04b8f61165afba7d4de19ac9e39bb7ab")
  ("org-journal" . "919b74d99e9552ffed1dfe19df877b87444492f4")
