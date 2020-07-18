@@ -67,6 +67,12 @@ Multi-cursors support.
 
 * Key Binding Configuration
 
+*** Toggle Visibility of Shell Buffer
+
+#+BEGIN_SRC emacs-lisp
+  (define-key global-map (kbd "C-s-`") 'toggle-shell)
+#+END_SRC
+
 * Shell Configuration
 
 Ensure environment variables inside Emacs look the same as in the user's shell.
@@ -76,6 +82,30 @@ Ensure environment variables inside Emacs look the same as in the user's shell.
     :if (memq window-system '(mac ns))
     :config
     (exec-path-from-shell-initialize))
+#+END_SRC
+
+Create =toggle-shell= command to toggle visibility of shell buffer.
+
+#+BEGIN_SRC emacs-lisp
+  ; Get shell executable path from environment variables.
+  (setq explicit-shell-file-name (getenv "SHELL"))
+
+  (defvar toggle-shell--shell-buffer nil)
+
+  (defun toggle-shell ()
+    "Toggle visibility of shell buffer."
+    (interactive)
+    (if (or (not toggle-shell--shell-buffer) ; test var of shell buffer is nil
+	    (not (string= (buffer-name)
+			  (buffer-name toggle-shell--shell-buffer)))) ; test current buffer is not shell
+	(switch-to-shell)
+      (switch-to-prev-buffer)))
+
+  (defun switch-to-shell ()
+    (unless (and toggle-shell--shell-buffer ; test shell buffer is not nill
+		 (buffer-name toggle-shell--shell-buffer)) ; test shell buffer is not killed
+      (setq toggle-shell--shell-buffer (ansi-term explicit-shell-file-name))) ; create new shell buffer
+    (switch-to-buffer (buffer-name toggle-shell--shell-buffer)))
 #+END_SRC
 
 * Appearance Configuration
