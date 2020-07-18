@@ -71,6 +71,7 @@ Multi-cursors support.
 
 #+BEGIN_SRC emacs-lisp
   (define-key global-map (kbd "C-s-`") 'toggle-shell)
+  (define-key global-map (kbd "C-`") 'toggle-shell-window)
 #+END_SRC
 
 * Shell Configuration
@@ -91,21 +92,87 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   (setq explicit-shell-file-name (getenv "SHELL"))
 
   (defvar toggle-shell--shell-buffer nil)
+  (defvar toggle-shell--shell-window nil)
+  (defvar toggle-shell--previous-window-configuration nil)
+
+  (defun toggle-shell--dump-window-configuration ()
+    (setq toggle-shell--previous-window-configuration
+	  (current-window-configuration)))
+
+  (defun toggle-shell--restore-window-configuration ()
+    (set-window-configuration toggle-shell--previous-window-configuration))
+
+  (defun toggle-shell--in-shell-window? ()
+    "Test current buffer is shell buffer and not in full window."
+    (and (toggle-shell--in-shell?)
+	 toggle-shell--shell-window
+	 (equal (selected-window) toggle-shell--shell-window) ; test selected window is shell window
+	 ))
+
+  (defun toggle-shell--in-shell? ()
+    "Test current buffer is shell buffer."
+    (and toggle-shell--shell-buffer ; test var of shell buffer is not nil
+	 (equal (current-buffer) toggle-shell--shell-buffer)) ; test current buffer is shell buffer
+    )
+
+  (defun toggle-shell--shell-buffer-existed? ()
+    "Test shell buffer existed."
+    (and toggle-shell--shell-buffer ; test shell buffer is not nill
+	 (buffer-name toggle-shell--shell-buffer)) ; test shell buffer is not killed
+    )
+
+  (defun toggle-shell--ensure-shell-buffer ()
+    "Ensure the shell buffer existed."
+    (unless (toggle-shell--shell-buffer-existed?)
+      (toggle-shell--dump-window-configuration)
+      (setq toggle-shell--shell-buffer (ansi-term explicit-shell-file-name)) ; create new shell buffer
+      (toggle-shell--restore-window-configuration)))
+
+  (defun toggle-shell--switch-to-shell ()
+    "Make shell buffer current."
+    (when (toggle-shell--in-shell-window?)
+      (toggle-shell--restore-window-configuration))
+    (unless (toggle-shell--in-shell?)
+      (toggle-shell--ensure-shell-buffer)
+      (toggle-shell--dump-window-configuration)
+      (switch-to-buffer toggle-shell--shell-buffer)))
+
+  (defun toggle-shell--delete-shell-window ()
+    "Delete the shell buffer window"
+    (when (toggle-shell--shell-buffer-existed?)
+      (toggle-shell--restore-window-configuration)))
+
+  (defun toggle-shell--switch-to-shell-window ()
+    "Split the current window set the bottom one as shell."
+    (unless (toggle-shell--in-shell-window?)
+      (when (toggle-shell--in-shell?)
+	(toggle-shell--restore-window-configuration))
+      (toggle-shell--ensure-shell-buffer)
+      (toggle-shell--dump-window-configuration)
+      (split-window)
+      (setq toggle-shell--shell-window (window-next-sibling))
+      (set-window-buffer (window-next-sibling)
+			 toggle-shell--shell-buffer)
+      (select-window (window-next-sibling))))
 
   (defun toggle-shell ()
-    "Toggle visibility of shell buffer."
+    "Toggle visibility of shell buffer.
+  1) If in shell buffer and in full window, switch to previous buffer.
+  2) If in shell buffer and in half window, switch to full window.
+  3) If in other buffer, switch to shell buffer in full window."
     (interactive)
-    (if (or (not toggle-shell--shell-buffer) ; test var of shell buffer is nil
-	    (not (string= (buffer-name)
-			  (buffer-name toggle-shell--shell-buffer)))) ; test current buffer is not shell
-	(switch-to-shell)
-      (switch-to-prev-buffer)))
+    (cond ((toggle-shell--in-shell-window?) (toggle-shell--switch-to-shell))
+	  ((toggle-shell--in-shell?) (toggle-shell--restore-window-configuration))
+	  (t (toggle-shell--switch-to-shell))))
 
-  (defun switch-to-shell ()
-    (unless (and toggle-shell--shell-buffer ; test shell buffer is not nill
-		 (buffer-name toggle-shell--shell-buffer)) ; test shell buffer is not killed
-      (setq toggle-shell--shell-buffer (ansi-term explicit-shell-file-name))) ; create new shell buffer
-    (switch-to-buffer (buffer-name toggle-shell--shell-buffer)))
+  (defun toggle-shell-window ()
+    "Toggle visibility of shell buffer window and focused.
+  1) If in other buffer, switch to shell buffer in half window.
+  2) If in shell buffer and in full window, switch to half window.
+  3) If in shell buffer and in half window, delete the shell buffer window."
+    (interactive)
+    (cond ((toggle-shell--in-shell-window?) (toggle-shell--delete-shell-window))
+	  (t (toggle-shell--switch-to-shell-window))))
 #+END_SRC
 
 * Appearance Configuration
