@@ -158,7 +158,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   (defun toggle-shell ()
     "Toggle visibility of shell buffer.
   1) If in shell buffer and in full window, switch to previous buffer.
-  2) If in shell buffer and in half window, switch to full window.
+  2) If in shell buffer and in splited window, switch to full window.
   3) If in other buffer, switch to shell buffer in full window."
     (interactive)
     (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--switch-to-shell))
@@ -169,7 +169,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
     "Toggle visibility of shell buffer window and focused.
   1) If in other buffer, switch to shell buffer in half window.
   2) If in shell buffer and in full window, switch to half window.
-  3) If in shell buffer and in half window, delete the shell buffer window."
+  3) If in shell buffer and in splited window, delete the shell buffer window."
     (interactive)
     (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--delete-shell-splited-window))
 	  (t (toggle-shell--switch-to-shell-splited-window))))
