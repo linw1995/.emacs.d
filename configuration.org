@@ -137,10 +137,18 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
       (toggle-shell--dump-window-configuration)
       (switch-to-buffer toggle-shell--shell-buffer)))
 
-  (defun toggle-shell--delete-shell-splited-window ()
+  (defun toggle-shell--delete-shell ()
     "Delete the shell buffer window"
     (when (toggle-shell--shell-buffer-existed?)
-      (toggle-shell--restore-window-configuration)))
+      (let ((window) (get-buffer-window toggle-shell--shell-buffer))
+	(if window
+	    (delete-window window)
+	  (toggle-shell--restore-window-configuration)))))
+
+  (defun toggle-shell--delete-shell-splited-window ()
+    "Delete the shell buffer splited window"
+    (when (toggle-shell--in-shell-splited-window?)
+      (delete-window toggle-shell--shell-splited-window)))
 
   (defun toggle-shell--switch-to-shell-splited-window ()
     "Split the current window set the bottom one as shell."
@@ -162,7 +170,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   3) If in other buffer, switch to shell buffer in full window."
     (interactive)
     (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--switch-to-shell))
-	  ((toggle-shell--in-shell?) (toggle-shell--restore-window-configuration))
+	  ((toggle-shell--in-shell?) (toggle-shell--delete-shell))
 	  (t (toggle-shell--switch-to-shell))))
 
   (defun toggle-shell-splited-window ()
