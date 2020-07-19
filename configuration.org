@@ -71,7 +71,7 @@ Multi-cursors support.
 
 #+BEGIN_SRC emacs-lisp
   (define-key global-map (kbd "C-s-`") 'toggle-shell)
-  (define-key global-map (kbd "C-`") 'toggle-shell-window)
+  (define-key global-map (kbd "C-`") 'toggle-shell-splited-window)
 #+END_SRC
 
 * Shell Configuration
@@ -92,7 +92,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   (setq explicit-shell-file-name (getenv "SHELL"))
 
   (defvar toggle-shell--shell-buffer nil)
-  (defvar toggle-shell--shell-window nil)
+  (defvar toggle-shell--shell-splited-window nil)
   (defvar toggle-shell--previous-window-configuration nil)
 
   (defun toggle-shell--dump-window-configuration ()
@@ -102,11 +102,11 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   (defun toggle-shell--restore-window-configuration ()
     (set-window-configuration toggle-shell--previous-window-configuration))
 
-  (defun toggle-shell--in-shell-window? ()
-    "Test current buffer is shell buffer and not in full window."
+  (defun toggle-shell--in-shell-splited-window? ()
+    "Test current buffer is shell buffer and is in splited window."
     (and (toggle-shell--in-shell?)
-	 toggle-shell--shell-window
-	 (equal (selected-window) toggle-shell--shell-window) ; test selected window is shell window
+	 toggle-shell--shell-splited-window
+	 (equal (selected-window) toggle-shell--shell-splited-window) ; test selected window is splited window
 	 ))
 
   (defun toggle-shell--in-shell? ()
@@ -130,27 +130,27 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 
   (defun toggle-shell--switch-to-shell ()
     "Make shell buffer current."
-    (when (toggle-shell--in-shell-window?)
+    (when (toggle-shell--in-shell-splited-window?)
       (toggle-shell--restore-window-configuration))
     (unless (toggle-shell--in-shell?)
       (toggle-shell--ensure-shell-buffer)
       (toggle-shell--dump-window-configuration)
       (switch-to-buffer toggle-shell--shell-buffer)))
 
-  (defun toggle-shell--delete-shell-window ()
+  (defun toggle-shell--delete-shell-splited-window ()
     "Delete the shell buffer window"
     (when (toggle-shell--shell-buffer-existed?)
       (toggle-shell--restore-window-configuration)))
 
-  (defun toggle-shell--switch-to-shell-window ()
+  (defun toggle-shell--switch-to-shell-splited-window ()
     "Split the current window set the bottom one as shell."
-    (unless (toggle-shell--in-shell-window?)
+    (unless (toggle-shell--in-shell-splited-window?)
       (when (toggle-shell--in-shell?)
 	(toggle-shell--restore-window-configuration))
       (toggle-shell--ensure-shell-buffer)
       (toggle-shell--dump-window-configuration)
       (split-window)
-      (setq toggle-shell--shell-window (window-next-sibling))
+      (setq toggle-shell--shell-splited-window (window-next-sibling))
       (set-window-buffer (window-next-sibling)
 			 toggle-shell--shell-buffer)
       (select-window (window-next-sibling))))
@@ -161,18 +161,18 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   2) If in shell buffer and in half window, switch to full window.
   3) If in other buffer, switch to shell buffer in full window."
     (interactive)
-    (cond ((toggle-shell--in-shell-window?) (toggle-shell--switch-to-shell))
+    (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--switch-to-shell))
 	  ((toggle-shell--in-shell?) (toggle-shell--restore-window-configuration))
 	  (t (toggle-shell--switch-to-shell))))
 
-  (defun toggle-shell-window ()
+  (defun toggle-shell-splited-window ()
     "Toggle visibility of shell buffer window and focused.
   1) If in other buffer, switch to shell buffer in half window.
   2) If in shell buffer and in full window, switch to half window.
   3) If in shell buffer and in half window, delete the shell buffer window."
     (interactive)
-    (cond ((toggle-shell--in-shell-window?) (toggle-shell--delete-shell-window))
-	  (t (toggle-shell--switch-to-shell-window))))
+    (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--delete-shell-splited-window))
+	  (t (toggle-shell--switch-to-shell-splited-window))))
 #+END_SRC
 
 * Appearance Configuration
