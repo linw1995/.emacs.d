@@ -329,7 +329,7 @@ Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer comple
 
 *** Replace isearch with swiper
 
-Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, which bind with =<C-r>= in local keymaps =swiper-map=, is copyed from [[https://github.com/abo-abo/swiper/issues/1172#issuecomment-633148859][Issue's comment commented by SreenivasVRao from abo-abo/swiper#1172]].
+Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, which bind with =<C-r>= in local keymaps =swiper-map=, is copied from [[https://github.com/abo-abo/swiper/issues/1172#issuecomment-633148859][Issue's comment commented by SreenivasVRao from abo-abo/swiper#1172]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
