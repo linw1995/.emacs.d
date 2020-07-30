@@ -426,6 +426,20 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+END_SRC
 
 * Programing Configuration
+** Python
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :straight t)
+
+  (use-package lsp-pyright
+    :straight (:host github :repo "emacs-lsp/lsp-pyright")
+    :ensure t
+    :hook (python-mode . (lambda ()
+			   (require 'lsp-pyright)
+			   (lsp))))
+#+END_SRC
+
 ** Racket
 
 #+BEGIN_SRC emacs-lisp
