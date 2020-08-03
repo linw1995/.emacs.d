@@ -370,7 +370,8 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
     (setq company-tooltip-align-annotations t)
     :hook ((emacs-lisp-mode . company-mode)
 	   (racket-mode . company-mode)
-	   (racket-repl-mode . company-mode)))
+	   (racket-repl-mode . company-mode)
+	   (python-mode . company-mode)))
 #+END_SRC
 
 ** Editing Tools
@@ -426,18 +427,41 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+END_SRC
 
 * Programing Configuration
+
 ** Python
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :straight t)
+    :straight t
+    :commands (lsp lsp-deferred))
 
-  (use-package lsp-pyright
-    :straight (:host github :repo "emacs-lsp/lsp-pyright")
-    :ensure t
-    :hook (python-mode . (lambda ()
-			   (require 'lsp-pyright)
-			   (lsp))))
+  (use-package company-lsp
+    :straight t
+    :commands company-lsp
+    :hook (lsp-mode . company-lsp)
+    :config
+    (push 'company-lsp company-backends))
+
+  (use-package lsp-ui
+    :straight t
+    :commands lsp-ui-mode
+    :hook (lsp-mode . lsp-ui-mode))
+
+  (use-package poetry
+    :straight t
+    :commands poetry
+    :config
+    (defun poetry-get-python-executable ()
+      (let ((venv_dir (poetry-get-virtualenv)))
+	(when venv_dir (concat venv_dir "/bin/python")))))
+
+  (use-package lsp-python-ms
+    :straight (:host github :repo "linw1995/lsp-python-ms")
+    :hook ((hack-local-variables
+	    . (lambda ()
+		(when (derived-mode-p 'python-mode)
+		  (require 'lsp-python-ms)
+		  (lsp-deferred))))))
 #+END_SRC
 
 ** Racket
