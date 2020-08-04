@@ -456,7 +456,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 	(when venv_dir (concat venv_dir "/bin/python")))))
 
   (use-package lsp-python-ms
-    :straight (:host github :repo "linw1995/lsp-python-ms")
+    :straight (:host github :repo "emacs-lsp/lsp-python-ms")
     :hook ((hack-local-variables
 	    . (lambda ()
 		(when (derived-mode-p 'python-mode)

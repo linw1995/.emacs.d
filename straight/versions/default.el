@@ -18,7 +18,7 @@
  ("ht.el" . "fff8c43f0e03d5b98deb9f988522b839ce2ca253")
  ("hydra" . "112e689f75b59398d8eca79ac6562dca12b8a959")
  ("lsp-mode" . "0131f1f4c9e7823955c3b1f80881fcd7c2eaa551")
- ("lsp-python-ms" . "344df43351e85749cb20bad98b4195847c8a4097")
+ ("lsp-python-ms" . "7a502e6c09456cbe8b5f6c64883c79f5ce08e5a9")
  ("lsp-ui" . "1f3e9700395f4fae024ca45ca64c8d70e99b39d2")
  ("magit" . "dc8a24b4cdb4c6371d3f52a5105f9887bbcc371b")
  ("markdown-mode" . "fa9fa20e3236006c2cf278209356f60cc4175120")
