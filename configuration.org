@@ -435,6 +435,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :commands (lsp lsp-deferred))
 
+  (use-package flycheck
+    :straight t
+    :commands global-flycheck-mode
+    :hook (after-init . global-flycheck-mode))
+
   (use-package company-lsp
     :straight t
     :commands company-lsp
@@ -446,6 +451,14 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :commands lsp-ui-mode
     :hook (lsp-mode . lsp-ui-mode))
+
+  (use-package python-black
+    :straight t
+    :demand t
+    :hook ((hack-local-variables
+	    . (lambda ()
+		(when (derived-mode-p 'python-mode)
+		  (require 'python-black))))))
 
   (use-package poetry
     :straight t
