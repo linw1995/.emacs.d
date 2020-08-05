@@ -9,15 +9,15 @@ Bootstrapping [[https://github.com/raxod502/straight.el][straight.el]].
 #+BEGIN_SRC emacs-lisp
   (defvar bootstrap-version)
   (let ((bootstrap-file
-	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	(bootstrap-version 5))
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
     (unless (file-exists-p bootstrap-file)
       (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
 #+END_SRC
 
@@ -63,6 +63,11 @@ Multi-cursors support.
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
     :straight t)
+#+END_SRC
+
+No Tabs
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
 #+END_SRC
 
 * Key Binding Configuration
@@ -118,7 +123,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 
   (defun toggle-shell--dump-window-configuration ()
     (setq toggle-shell--previous-window-configuration
-	  (current-window-configuration)))
+          (current-window-configuration)))
 
   (defun toggle-shell--restore-window-configuration ()
     (set-window-configuration toggle-shell--previous-window-configuration))
@@ -126,20 +131,20 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   (defun toggle-shell--in-shell-splited-window? ()
     "Test current buffer is shell buffer and is in splited window."
     (and (toggle-shell--in-shell?)
-	 toggle-shell--shell-splited-window
-	 (equal (selected-window) toggle-shell--shell-splited-window) ; test selected window is splited window
-	 ))
+         toggle-shell--shell-splited-window
+         (equal (selected-window) toggle-shell--shell-splited-window) ; test selected window is splited window
+         ))
 
   (defun toggle-shell--in-shell? ()
     "Test current buffer is shell buffer."
     (and toggle-shell--shell-buffer ; test var of shell buffer is not nil
-	 (equal (current-buffer) toggle-shell--shell-buffer)) ; test current buffer is shell buffer
+         (equal (current-buffer) toggle-shell--shell-buffer)) ; test current buffer is shell buffer
     )
 
   (defun toggle-shell--shell-buffer-existed? ()
     "Test shell buffer existed."
     (and toggle-shell--shell-buffer ; test shell buffer is not nill
-	 (buffer-name toggle-shell--shell-buffer)) ; test shell buffer is not killed
+         (buffer-name toggle-shell--shell-buffer)) ; test shell buffer is not killed
     )
 
   (defun toggle-shell--ensure-shell-buffer ()
@@ -162,9 +167,9 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
     "Delete the shell buffer window"
     (when (toggle-shell--shell-buffer-existed?)
       (let ((window) (get-buffer-window toggle-shell--shell-buffer))
-	(if window
-	    (delete-window window)
-	  (toggle-shell--restore-window-configuration)))))
+        (if window
+            (delete-window window)
+          (toggle-shell--restore-window-configuration)))))
 
   (defun toggle-shell--delete-shell-splited-window ()
     "Delete the shell buffer splited window"
@@ -175,13 +180,13 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
     "Split the current window set the bottom one as shell."
     (unless (toggle-shell--in-shell-splited-window?)
       (when (toggle-shell--in-shell?)
-	(toggle-shell--restore-window-configuration))
+        (toggle-shell--restore-window-configuration))
       (toggle-shell--ensure-shell-buffer)
       (toggle-shell--dump-window-configuration)
       (split-window)
       (setq toggle-shell--shell-splited-window (window-next-sibling))
       (set-window-buffer (window-next-sibling)
-			 toggle-shell--shell-buffer)
+                         toggle-shell--shell-buffer)
       (select-window (window-next-sibling))))
 
   (defun toggle-shell ()
@@ -191,8 +196,8 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   3) If in other buffer, switch to shell buffer in full window."
     (interactive)
     (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--switch-to-shell))
-	  ((toggle-shell--in-shell?) (toggle-shell--delete-shell))
-	  (t (toggle-shell--switch-to-shell))))
+          ((toggle-shell--in-shell?) (toggle-shell--delete-shell))
+          (t (toggle-shell--switch-to-shell))))
 
   (defun toggle-shell-splited-window ()
     "Toggle visibility of shell buffer window and focused.
@@ -201,7 +206,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
   3) If in shell buffer and in splited window, delete the shell buffer window."
     (interactive)
     (cond ((toggle-shell--in-shell-splited-window?) (toggle-shell--delete-shell-splited-window))
-	  (t (toggle-shell--switch-to-shell-splited-window))))
+          (t (toggle-shell--switch-to-shell-splited-window))))
 #+END_SRC
 
 * Appearance Configuration
@@ -214,7 +219,7 @@ Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
     :config
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-	  doom-themes-enable-italic t) ; if nil, italics is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
     (load-theme 'doom-one t)
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
@@ -232,7 +237,7 @@ Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
 Disable dialog box.
 #+BEGIN_SRC emacs-lisp
   (setq use-file-dialog        nil
-	use-dialog-box         nil)
+        use-dialog-box         nil)
 #+END_SRC
 
 Hide toolbar.
@@ -253,16 +258,16 @@ Make the title bar and toolbar to be transparent.
 #+BEGIN_SRC emacs-lisp
   (when (eq system-type 'darwin)
     (add-to-list 'default-frame-alist
-		 '(ns-transparent-titlebar . t))
+                 '(ns-transparent-titlebar . t))
     (add-to-list 'default-frame-alist
-		 '(ns-appearance . dark)))
+                 '(ns-appearance . dark)))
 #+END_SRC
 
 Change the opacity of the frame.
 #+BEGIN_SRC emacs-lisp
   (when (eq system-type 'darwin)
     (add-to-list 'default-frame-alist
-		 '(alpha . (100 . 100))))
+                 '(alpha . (100 . 100))))
 #+END_SRC
 
 ** Dashboard
@@ -305,9 +310,9 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
   (use-package rainbow-delimiters
     :straight t
     :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
-	   (racket-mode . rainbow-delimiters-mode)
-	   (racket-repl-mode . rainbow-delimiters-mode)))
-#+END_SRC	 
+           (racket-mode . rainbow-delimiters-mode)
+           (racket-repl-mode . rainbow-delimiters-mode)))
+#+END_SRC
 
 * Project Managing Configuration
 
@@ -351,12 +356,12 @@ Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, whi
       "Move cursor vertically down ARG candidates. If the input is empty, select the previous history element instead."
       (interactive "p")
       (if (string= ivy-text "")
-	  (ivy-previous-history-element 1)
-	(ivy-previous-line arg)))
+          (ivy-previous-history-element 1)
+        (ivy-previous-line arg)))
     :bind (("C-s" . 'swiper)
-	   ("C-r" . 'swiper)
-	   :map swiper-map
-	   ("C-r" . 'swiper-C-r)))
+           ("C-r" . 'swiper)
+           :map swiper-map
+           ("C-r" . 'swiper-C-r)))
 #+END_SRC
 
 Use [[http://company-mode.github.io/][company-mode]] for text completion.
@@ -369,9 +374,9 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
     (setq company-idle-delay 0.1)
     (setq company-tooltip-align-annotations t)
     :hook ((emacs-lisp-mode . company-mode)
-	   (racket-mode . company-mode)
-	   (racket-repl-mode . company-mode)
-	   (python-mode . company-mode)))
+           (racket-mode . company-mode)
+           (racket-repl-mode . company-mode)
+           (python-mode . company-mode)))
 #+END_SRC
 
 ** Editing Tools
@@ -392,19 +397,19 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package paredit
     :straight t
     :hook ((emacs-lisp-mode . paredit-mode)
-	   (racket-mode . paredit-mode)
-	   (racket-repl-mode . paredit-mode))
+           (racket-mode . paredit-mode)
+           (racket-repl-mode . paredit-mode))
     :config
     (define-paredit-pair ?\（ ?\） "full-round")
     (define-paredit-pair ?\【 ?\】 "full-square")
     (define-paredit-pair ?\「 ?\」 "full-curly")
     :bind (:map paredit-mode-map
-		("（" . 'paredit-open-full-round)
-		("）" . 'paredit-close-full-round)
-		("【" . 'paredit-open-full-square)
-		("】" . 'paredit-close-full-square)
-		("「" . 'paredit-open-full-curly)
-		("」" . 'paredit-close-full-curly)))
+                ("（" . 'paredit-open-full-round)
+                ("）" . 'paredit-close-full-round)
+                ("【" . 'paredit-open-full-square)
+                ("】" . 'paredit-close-full-square)
+                ("「" . 'paredit-open-full-curly)
+                ("」" . 'paredit-close-full-curly)))
 #+END_SRC
 
 ** Version Control Tools
@@ -449,9 +454,9 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :demand t
     :hook ((hack-local-variables
-	    . (lambda ()
-		(when (derived-mode-p 'python-mode)
-		  (require 'python-black))))))
+            . (lambda ()
+                (when (derived-mode-p 'python-mode)
+                  (require 'python-black))))))
 
   (use-package poetry
     :straight t
@@ -459,15 +464,15 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :config
     (defun poetry-get-python-executable ()
       (let ((venv_dir (poetry-get-virtualenv)))
-	(when venv_dir (concat venv_dir "/bin/python")))))
+        (when venv_dir (concat venv_dir "/bin/python")))))
 
   (use-package lsp-python-ms
     :straight (:host github :repo "emacs-lsp/lsp-python-ms")
     :hook ((hack-local-variables
-	    . (lambda ()
-		(when (derived-mode-p 'python-mode)
-		  (require 'lsp-python-ms)
-		  (lsp-deferred))))))
+            . (lambda ()
+                (when (derived-mode-p 'python-mode)
+                  (require 'lsp-python-ms)
+                  (lsp-deferred))))))
 #+END_SRC
 
 *** How to set path of the Python executable explicitly? 
@@ -484,9 +489,9 @@ If you use poetry to manage project, you can copy the below code instead. It wil
 #+BEGIN_SRC emacs-lisp :tangle no
   ((python-mode
     . ((eval
-	. (progn (when (require 'poetry nil t)
-		   (setq lsp-python-ms-python-executable
-			 (poetry-get-python-executable))))))))
+        . (progn (when (require 'poetry nil t)
+                   (setq lsp-python-ms-python-executable
+                         (poetry-get-python-executable))))))))
 #+END_SRC
 
 ** Racket
@@ -505,7 +510,7 @@ If you use poetry to manage project, you can copy the below code instead. It wil
     (:host github :repo "hasu/emacs-ob-racket")
     :config
     (org-babel-do-load-languages 'org-babel-load-languages
-				 '((racket . t))))
+                                 '((racket . t))))
 
   (defun org-mode-configuration ()
     (setq org-adapt-indentation nil)
