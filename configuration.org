@@ -485,6 +485,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package flycheck
     :straight t
     :commands global-flycheck-mode
+    :init 
+    (defvaralias 'flycheck-python-flake8-executable 'python-shell-interpreter)
     :hook (after-init . global-flycheck-mode))
 
   (use-package lsp-ui
@@ -510,6 +512,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
   (use-package lsp-python-ms
     :straight (:host github :repo "emacs-lsp/lsp-python-ms")
+    :init
+    (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
     :hook ((hack-local-variables
             . (lambda ()
                 (when (derived-mode-p 'python-mode)
@@ -519,20 +523,22 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
 *** How to set path of the Python executable explicitly? 
 
-Create a =.dir-locals.el= file with the below code in the root directory of each project/worksplace.  And you can modify the string value that is absolute path of the Python executable.
+Create a =.dir-locals.el= file with the below code in the root directory of each project/worksplace.
+And you can modify the string value that is absolute path of the Python executable.
 
 #+BEGIN_SRC emacs-lisp :tangle no
   ((python-mode
-    . ((lsp-python-ms-python-executable . "{absolute path of the Python executable}")))
+    . ((python-shell-interpreter . "{absolute path of the Python executable}")))
 #+END_SRC
 
-If you use poetry to manage project, you can copy the below code instead. It will check and configure with venv created by poetry.
+If you use poetry to manage project, you can copy the below code instead. 
+It will check and configure with venv created by poetry.
 
 #+BEGIN_SRC emacs-lisp :tangle no
   ((python-mode
     . ((eval
         . (progn (when (require 'poetry nil t)
-                   (setq lsp-python-ms-python-executable
+                   (setq python-shell-interpreter
                          (poetry-get-python-executable))))))))
 #+END_SRC
 
