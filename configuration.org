@@ -357,9 +357,9 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
 * Productivity Tools
 ** Completion Tools
 
-Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion. <<Counsel Configuration>>
-
 *** Replace isearch with swiper
+
+Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion. <<Counsel Configuration>>
 
 Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, which bind with =<C-r>= in local keymaps =swiper-map=, is copied from [[https://github.com/abo-abo/swiper/issues/1172#issuecomment-633148859][Issue's comment commented by SreenivasVRao from abo-abo/swiper#1172]].
 
@@ -390,6 +390,8 @@ Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, whi
            :map swiper-map
            ("C-r" . 'swiper-C-r)))
 #+END_SRC
+
+*** Code autocompletion
 
 Use [[http://company-mode.github.io/][company-mode]] for text completion.
 
