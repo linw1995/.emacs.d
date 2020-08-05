@@ -70,6 +70,19 @@ No Tabs
   (setq-default indent-tabs-mode nil)
 #+END_SRC
 
+Show whitespace
+#+BEGIN_SRC emacs-lisp
+  (use-package whitespace
+    :ensure t
+    :config
+    (setq-default
+     whitespace-line-column 80
+     whitespace-style       '(face spaces tabs newline
+                                   space-mark tab-mark newline-mark
+                                   lines-tail empty))
+    (global-whitespace-mode))
+#+END_SRC
+
 * Key Binding Configuration
 
 *** iTerm Integration
