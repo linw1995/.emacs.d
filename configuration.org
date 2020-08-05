@@ -406,6 +406,10 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
            (racket-mode . company-mode)
            (racket-repl-mode . company-mode)
            (python-mode . company-mode)))
+
+  (use-package company-box
+    :straight t
+    :hook (company-mode . company-box-mode))
 #+END_SRC
 
 ** Editing Tools
