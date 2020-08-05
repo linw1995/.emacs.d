@@ -350,7 +350,8 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
     :bind-keymap ("C-c p" . projectile-command-map)
     :config
     (projectile-mode +1)
-    (setq projectile-switch-project-action 'neotree-projectile-action))
+    (setq projectile-switch-project-action 'neotree-projectile-action)
+    (setq projectile-completion-system 'ivy))
 #+END_SRC
 
 * Productivity Tools
