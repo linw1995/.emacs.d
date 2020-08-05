@@ -39,6 +39,11 @@ Show line number.
   (global-linum-mode 1)
 #+END_SRC
 
+Show column number.
+#+BEGIN_SRC emacs-lisp
+  (setq column-number-mode t)
+#+END_SRC
+
 Don't create backup files.
 #+BEGIN_SRC emacs-lisp
   (setq make-backup-files nil)
