@@ -412,6 +412,14 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
     :hook (company-mode . company-box-mode))
 #+END_SRC
 
+*** Snippet
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :straight t
+    :hook (lsp-mode . yas-minor-mode))
+#+END_SRC
+
 ** Editing Tools
 
 Use the built-in version of Org.
@@ -471,7 +479,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :straight t
-    :commands (lsp lsp-deferred))
+    :commands (lsp lsp-deferred)
+    :config (setq lsp-enable-snippet t))
 
   (use-package flycheck
     :straight t
