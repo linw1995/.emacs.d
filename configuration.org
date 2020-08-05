@@ -440,13 +440,6 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :commands global-flycheck-mode
     :hook (after-init . global-flycheck-mode))
 
-  (use-package company-lsp
-    :straight t
-    :commands company-lsp
-    :hook (lsp-mode . company-lsp)
-    :config
-    (push 'company-lsp company-backends))
-
   (use-package lsp-ui
     :straight t
     :commands lsp-ui-mode
