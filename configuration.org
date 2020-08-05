@@ -270,6 +270,14 @@ Hide scrollbar.
     (set-scroll-bar-mode nil))
 #+END_SRC
 
+Startup Window Size.
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (set-frame-size (selected-frame)
+                    160
+                    50))
+#+END_SRC
+
 *** MacOS
 
 Make the title bar and toolbar to be transparent.
