@@ -1,5 +1,5 @@
 (("all-the-icons.el" . "8c0228053dd6693d926970d89270094be52b0f75")
- ("company-lsp" . "f921ffa0cdc542c21dc3dd85f2c93df4288e83bd")
+ ("company-box" . "c88b220975c3eafe60096b9833f71813f9383d1a")
  ("company-mode" . "656ad10670512e135a0a5881f127bb7a789ef8ca")
  ("dash.el" . "b92ab5a39b987e4fe69317b9d9fda452300baf20")
  ("emacs-async" . "86aef2c38e7d35e8509b7feeee3e989d825eba91")
@@ -10,6 +10,7 @@
  ("emacs-neotree" . "5e1271655170f4cdc6849258e383c548a4e6e3d0")
  ("emacs-ob-racket" . "34f27cf32ddd167c0158fd626c8c411917ed84bb")
  ("emacs-python-black" . "a11ca73f6dfcdc125d27ff184496d66bdbd71326")
+ ("emacs-tree-sitter" . "61f6092121272e3fe69516235ea3dc5fec701d34")
  ("emacsmirror-mirror" . "f220900bd33ac0ff8eedcac992fd6104e91637a3")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("exec-path-from-shell" . "e1f14450f172d29a0024806404dfe4b70bfcd371")
@@ -44,5 +45,6 @@
  ("swiper" . "c6b60d34ac37bf4d91a25f16d22e528f85e06938")
  ("transient" . "4d44d08e90355a8ef36aaad1f9f79c95de1ce0e9")
  ("use-package" . "7d925367ef0857d513d62eab4cb57b7436b9ffe9")
- ("with-editor" . "efafd482c21b90decbb0b682ed3159c86014d4f3"))
-:alpha
+ ("with-editor" . "efafd482c21b90decbb0b682ed3159c86014d4f3")
+ ("yasnippet" . "5cbdbf0d2015540c59ed8ee0fcf4788effdf75b6"))
+:beta
