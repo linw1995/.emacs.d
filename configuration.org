@@ -70,22 +70,52 @@ Multi-cursors support.
     :straight t)
 #+END_SRC
 
-No Tabs
-#+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil)
-#+END_SRC
+*** Tabs and Spaces
 
-Show whitespace
+Plenty of codes are copied from [[https://dougie.io/emacs/indentation/][The Ultimate Guide To Indentation in Emacs (Tabs and Spaces)]].
+
 #+BEGIN_SRC emacs-lisp
+  (defcustom custom-tab-width 4
+    "Integer for customizing the tab size")
+
+  (defun tabs-disable ()
+    (interactive)
+    (setq indent-tabs-mode nil))
+
+  (defun tabs-enable ()
+    (interactive)
+    (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+    (setq indent-tabs-mode t)
+    (setq tab-width custom-tab-width))
+
+  ;; Making electric-indent behave sanely
+  (setq-default electric-indent-inhibit t)
+
+  ;; Make the backspace properly erase the tab instead of
+  ;; removing 1 space at a time.
+  (setq backward-delete-char-untabify-method 'hungry)
+
   (use-package whitespace
     :ensure t
     :config
-    (setq-default
-     whitespace-line-column 80
-     whitespace-style       '(face spaces tabs newline
-                                   space-mark tab-mark newline-mark
-                                   lines-tail empty))
-    (global-whitespace-mode))
+    (setq whitespace-line-column 80)
+     ;; This will also show trailing characters as they are useful to spot.
+    (setq whitespace-style '(face tabs tab-mark trailing))
+    (custom-set-faces
+     '(whitespace-tab ((t (:foreground "#636363")))))
+    (setq whitespace-display-mappings
+          '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
+    (global-whitespace-mode) ; Enable whitespace mode everywhere
+    :hook ((magit-section-mode . (lambda ()
+                                   (setq-local whitespace-style nil)))
+           (org-src-mode . whitespace-mode)) ; Manually activite whitespace
+    )
+#+END_SRC
+
+No Tabs by default.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
 #+END_SRC
 
 * Key Binding Configuration
@@ -519,6 +549,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
                 (when (derived-mode-p 'python-mode)
                   (require 'lsp-python-ms)
                   (lsp-deferred))))))
+
+  (add-hook 'python-mode-hook 'tabs-disable)
 #+END_SRC
 
 *** How to set path of the Python executable explicitly? 
