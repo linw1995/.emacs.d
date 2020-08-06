@@ -514,10 +514,10 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
   (use-package flycheck
     :straight t
-    :commands global-flycheck-mode
-    :init 
+    :commands flycheck-mode
+    :init
     (defvaralias 'flycheck-python-flake8-executable 'python-shell-interpreter)
-    :hook (after-init . global-flycheck-mode))
+    :hook (hack-local-variables . flycheck-mode))
 
   (use-package lsp-ui
     :straight t
