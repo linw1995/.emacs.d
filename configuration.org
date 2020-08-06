@@ -118,6 +118,20 @@ No Tabs by default.
   (setq-default indent-tabs-mode nil)
 #+END_SRC
 
+*** Syntax Highlighting
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tree-sitter
+    :straight
+    (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
+    :hook
+    ((python-mode . tree-sitter-hl-mode)))
+
+  (use-package tree-sitter-langs
+    :straight
+    (:host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
+#+END_SRC
+
 * Key Binding Configuration
 
 *** iTerm Integration
