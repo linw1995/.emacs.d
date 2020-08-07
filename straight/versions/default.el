@@ -20,7 +20,7 @@
  ("gnu-elpa-mirror" . "dbf94d86c7363be032e127a90db3100876a9f847")
  ("ht.el" . "fff8c43f0e03d5b98deb9f988522b839ce2ca253")
  ("hydra" . "112e689f75b59398d8eca79ac6562dca12b8a959")
- ("let-alist" . "ef3c02fa292b6e32769945bbbfb7f2e5ac574b64")
+ ("let-alist" . "b299c78897cc307f9d5521927376fbd06a26f123")
  ("lsp-mode" . "c333e4900297133535c78c25a197635900e937e9")
  ("lsp-python-ms" . "7a502e6c09456cbe8b5f6c64883c79f5ce08e5a9")
  ("lsp-ui" . "1f3e9700395f4fae024ca45ca64c8d70e99b39d2")
