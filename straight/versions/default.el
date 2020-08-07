@@ -32,7 +32,7 @@
  ("page-break-lines" . "314b397910b3d16bb7cbcc25098696348e678080")
  ("paredit" . "8330a41e8188fe18d3fa805bb9aa529f015318e8")
  ("pkg-info" . "76ba7415480687d05a4353b27fea2ae02b8d9d61")
- ("poetry.el" . "d876522e5af576d53c62b2838f85c9441fe62258")
+ ("poetry.el" . "22a76cdcba180b4689a6b45c97669e3c76cd36ed")
  ("pos-tip" . "179cc126b363f72ca12fab1e0dc462ce0ee79742")
  ("projectile" . "7ed2ce31ef7db12f3c9bfede6bd0678cf18d261e")
  ("pyvenv" . "861998b6d157ae73b829f02a5a6c8a9118310831")
