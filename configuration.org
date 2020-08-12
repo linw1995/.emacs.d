@@ -528,10 +528,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
   (use-package flycheck
     :straight t
-    :commands flycheck-mode
+    :ensure t
     :init
     (defvaralias 'flycheck-python-flake8-executable 'python-shell-interpreter)
-    :hook (hack-local-variables . flycheck-mode))
+    :config
+    (global-flycheck-mode))
 
   (use-package lsp-ui
     :straight t
@@ -567,7 +568,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (add-hook 'python-mode-hook 'tabs-disable)
 #+END_SRC
 
-*** How to set path of the Python executable explicitly? 
+*** How to set path of the Python executable explicitly?
 
 Create a =.dir-locals.el= file with the below code in the root directory of each project/worksplace.
 And you can modify the string value that is absolute path of the Python executable.
@@ -577,7 +578,7 @@ And you can modify the string value that is absolute path of the Python executab
     . ((python-shell-interpreter . "{absolute path of the Python executable}")))
 #+END_SRC
 
-If you use poetry to manage project, you can copy the below code instead. 
+If you use poetry to manage project, you can copy the below code instead.
 It will check and configure with venv created by poetry.
 
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -586,6 +587,17 @@ It will check and configure with venv created by poetry.
         . (progn (when (require 'poetry nil t)
                    (setq python-shell-interpreter
                          (poetry-get-python-executable))))))))
+#+END_SRC
+
+*** How to configure flycheck
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  ((python-mode
+    . ((eval
+        . (progn (when (require 'flycheck nil t)
+                   (flycheck-add-next-checker 'lsp 'python-flake8) ; configure checker python-flake8 run after lsp-mode
+                   (setq-local flycheck-disabled-checkers '(python-pylint python-mypy)) ; disable checkers: pylint & mypy
+                   ))))))
 #+END_SRC
 
 ** Racket
@@ -617,7 +629,7 @@ Use htmlize to support exporting code with syntax highlighting.
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :straight t)
-#+END_SRC    
+#+END_SRC
 
 Configure =org-goto= with counsel. [[https://emacs.stackexchange.com/a/32625/29268][Solution is copyed from stackoverflow.]]
 See also [[Counsel Configuration]].
