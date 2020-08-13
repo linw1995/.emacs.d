@@ -2,6 +2,22 @@
 #+AUTHOR: Jade Lin
 #+EMAIL: linw1995@icloud.com
 
+* Misc
+** Disable Byte Compile Warnings
+
+#+BEGIN_SRC emacs-lisp
+  (setq-local byte-compile-warnings '(cl-functions))
+#+END_SRC
+
+** MacOS
+
+Dired is a directory editor on Emacs. It uses =ls= program.
+On macOS, ls does not support =--dired= option.
+Appending below codes into =.emacs= file to configure dired using =ls= without =--dired=.
+#+BEGIN_SRC emacs-lisp
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired nil))
+#+END_SRC
 * Package Managing
 
 Bootstrapping [[https://github.com/raxod502/straight.el][straight.el]].
@@ -640,13 +656,4 @@ See also [[Counsel Configuration]].
     (setq org-outline-path-complete-in-steps nil))
   (add-hook 'org-mode-hook 'org-goto-configuration)
 #+END_SRC
-* Misc
-** MacOS
 
-Dired is a directory editor on Emacs. It uses =ls= program.
-On macOS, ls does not support =--dired= option.
-Appending below codes into =.emacs= file to configure dired using =ls= without =--dired=.
-#+BEGIN_SRC emacs-lisp
-  (when (string= system-type "darwin")
-    (setq dired-use-ls-dired nil))
-#+END_SRC
