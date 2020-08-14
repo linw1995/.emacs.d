@@ -487,13 +487,6 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
 
 ** Editing Tools
 
-Use the built-in version of Org.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package org
-    :straight (:type built-in))
-#+END_SRC
-
 Paredit is a minor mode for performing structured editing of S-expression data.
 Paredit helps keep parentheses balanced and adds many keys for moving S-expressions and moving around in S-expressions. See [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][The Animated Guide to Paredit]] for more details.
 
@@ -631,7 +624,30 @@ It will check and configure with venv created by poetry.
 
 ** Org
 
+Use the built-in version of Org.
+
+Configure =org-goto= with counsel. [[https://emacs.stackexchange.com/a/32625/29268][Solution is copyed from stackoverflow.]]
+See also [[Counsel Configuration]].
+
 #+BEGIN_SRC emacs-lisp
+  (use-package org
+    :straight (:type built-in)
+    :init
+    (defun org-capture-configure ()
+      (setq org-capture-templates nil)
+      (add-to-list 'org-capture-templates
+                   '("w" "Web Collections" entry
+                     (file+headline "~/Sync/org/inbox.org" "Web")
+                     "* %U %:annotation\n\n%:initial\n\n%?")))
+    (org-capture-configure)
+    :config
+    (defun org-goto-configuration ()
+      (setq org-goto-interface 'outline-path-completion)
+      (setq org-outline-path-complete-in-steps nil))
+    (org-goto-configuration)
+    (setq org-adapt-indentation nil)
+    (setq org-catch-invisible-edits 'smart))
+
   (use-package ob-racket
     :straight
     (:host github :repo "hasu/emacs-ob-racket")
@@ -639,10 +655,6 @@ It will check and configure with venv created by poetry.
     (org-babel-do-load-languages 'org-babel-load-languages
                                  '((racket . t))))
 
-  (defun org-mode-configuration ()
-    (setq org-adapt-indentation nil)
-    (setq org-catch-invisible-edits 'smart))
-  (add-hook 'org-mode-hook 'org-mode-configuration)
 #+END_SRC
 
 Use htmlize to support exporting code with syntax highlighting.
@@ -650,15 +662,5 @@ Use htmlize to support exporting code with syntax highlighting.
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :straight t)
-#+END_SRC
-
-Configure =org-goto= with counsel. [[https://emacs.stackexchange.com/a/32625/29268][Solution is copyed from stackoverflow.]]
-See also [[Counsel Configuration]].
-
-#+BEGIN_SRC emacs-lisp
-  (defun org-goto-configuration ()
-    (setq org-goto-interface 'outline-path-completion)
-    (setq org-outline-path-complete-in-steps nil))
-  (add-hook 'org-mode-hook 'org-goto-configuration)
 #+END_SRC
 
