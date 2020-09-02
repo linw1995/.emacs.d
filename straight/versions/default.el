@@ -2,6 +2,7 @@
  ("company-box" . "c88b220975c3eafe60096b9833f71813f9383d1a")
  ("company-mode" . "656ad10670512e135a0a5881f127bb7a789ef8ca")
  ("dash.el" . "b92ab5a39b987e4fe69317b9d9fda452300baf20")
+ ("delight" . "70cb8cec9e5eb2c24364e065d85c2ea8f14a587c")
  ("emacs-async" . "86aef2c38e7d35e8509b7feeee3e989d825eba91")
  ("emacs-dashboard" . "bf38867ae80902d58207974b4a2bba4249324599")
  ("emacs-doom-themes" . "e803fc4ac8cf7118e2d1544d8241b848b5e79e9f")

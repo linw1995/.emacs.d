@@ -121,7 +121,9 @@ Plenty of codes are copied from [[https://dougie.io/emacs/indentation/][The Ulti
   (setq backward-delete-char-untabify-method 'hungry)
 
   (use-package whitespace
-    :ensure t
+    :delight
+    global-whitespace-mode
+    whitespace-mode
     :config
     (setq whitespace-line-column 80)
      ;; This will also show trailing characters as they are useful to spot.
@@ -297,6 +299,23 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 #+END_SRC
 
 * Appearance Configuration
+** Enables you to customise the mode names displayed in the mode line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package delight
+    :straight t
+    :hook
+    ('after-init
+     . (lambda ()
+         (require 'delight)
+         (delight '((eldoc-mode nil t)
+                    (auto-fill-function " AF")
+                    (visual-line-mode nil t)
+                    (auto-revert-mode nil t)
+                    (tree-sitter-mode nil t)
+                    (page-break-lines-mode nil t))))))
+#+END_SRC
+
 ** Theme Configuration
 
 Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
@@ -409,6 +428,7 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :straight t
+    :delight
     :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
            (racket-mode . rainbow-delimiters-mode)
            (racket-repl-mode . rainbow-delimiters-mode)))
@@ -421,6 +441,8 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :straight t
+    :delight
+    '(:eval (concat " [" (projectile-project-name) "]"))
     :bind-keymap ("C-c p" . projectile-command-map)
     :config
     (projectile-mode +1)
@@ -440,6 +462,7 @@ Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, whi
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
     :straight t
+    :delight
     :config
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
@@ -472,6 +495,7 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :straight t
+    :delight
     :config
     (setq company-minimum-prefix-length 2)
     (setq company-idle-delay 0.1)
@@ -483,6 +507,7 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
 
   (use-package company-box
     :straight t
+    :delight
     :hook (company-mode . company-box-mode))
 #+END_SRC
 
@@ -491,6 +516,7 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :straight t
+    :delight yas-minor-mode
     :hook (lsp-mode . yas-minor-mode))
 #+END_SRC
 
@@ -504,6 +530,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :straight t
+    :delight
     :hook ((emacs-lisp-mode . paredit-mode)
            (racket-mode . paredit-mode)
            (racket-repl-mode . paredit-mode))
