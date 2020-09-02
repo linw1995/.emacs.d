@@ -3,6 +3,15 @@
 #+EMAIL: linw1995@icloud.com
 
 * Misc
+** Proxy Configuration
+
+#+BEGIN_SRC emacs-lisp
+  (setq url-proxy-services
+     '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+       ("http" . "localhost:1081")
+       ("https" . "localhost:1081")))
+#+END_SRC
+
 ** Disable Byte Compile Warnings
 
 #+BEGIN_SRC emacs-lisp
