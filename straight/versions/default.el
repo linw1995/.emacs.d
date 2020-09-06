@@ -11,6 +11,7 @@
  ("emacs-neotree" . "5e1271655170f4cdc6849258e383c548a4e6e3d0")
  ("emacs-ob-racket" . "34f27cf32ddd167c0158fd626c8c411917ed84bb")
  ("emacs-python-black" . "a11ca73f6dfcdc125d27ff184496d66bdbd71326")
+ ("emacs-python-isort" . "1fd246c54ac6726c00d16bcea643682d174ac4a6")
  ("emacs-tree-sitter" . "61f6092121272e3fe69516235ea3dc5fec701d34")
  ("emacsmirror-mirror" . "f220900bd33ac0ff8eedcac992fd6104e91637a3")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")

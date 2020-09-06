@@ -598,6 +598,14 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
                 (when (derived-mode-p 'python-mode)
                   (require 'python-black))))))
 
+  (use-package python-isort
+    :straight (:type git :host github :repo "linw1995/emacs-python-isort")
+    :demand
+    :hook ((hack-local-variables
+            . (lambda ()
+                (when (derived-mode-p 'python-mode)
+                  (require 'python-isort))))))
+
   (use-package poetry
     :straight t
     :commands poetry
