@@ -31,7 +31,7 @@ Appending below codes into =.emacs= file to configure dired using =ls= without =
 
 Bootstrapping [[https://github.com/raxod502/straight.el][straight.el]].
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -676,7 +676,7 @@ See also [[Counsel Configuration]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
-    :straight (:type built-in)
+    :straight
     :init
     (defun org-capture-configure ()
       (setq org-capture-templates nil)

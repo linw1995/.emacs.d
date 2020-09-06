@@ -31,6 +31,7 @@
  ("markdown-mode" . "0b5386b67118767b01e69019c16ae7f1ef30bde7")
  ("melpa" . "efea6a0ea9176f61cb5a97f5fdce22b3ba28894e")
  ("multiple-cursors.el" . "b880554d04b8f61165afba7d4de19ac9e39bb7ab")
+ ("org" . "d03a52d37b97d638b2ba3576903175b7172cc0ff")
  ("org-journal" . "faabab9c90bbe8bf204f255dbc2ccee45ceaba67")
  ("page-break-lines" . "314b397910b3d16bb7cbcc25098696348e678080")
  ("paredit" . "8330a41e8188fe18d3fa805bb9aa529f015318e8")
