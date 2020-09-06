@@ -19,6 +19,7 @@
  ("f.el" . "1814209e2ff43cf2e6d38c4cd476218915f550fb")
  ("faceup" . "6c92dad56a133e14e7b27831e1bcf9b3a71ff154")
  ("flycheck" . "c02cd773dded0215f9417ec04dfe8dabda63ef43")
+ ("flycheck-cask" . "3457ae553c4feaf8168008f063d78fdde8fb5f94")
  ("gnu-elpa-mirror" . "dbf94d86c7363be032e127a90db3100876a9f847")
  ("ht.el" . "fff8c43f0e03d5b98deb9f988522b839ce2ca253")
  ("hydra" . "112e689f75b59398d8eca79ac6562dca12b8a959")

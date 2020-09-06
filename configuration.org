@@ -709,3 +709,10 @@ Use htmlize to support exporting code with syntax highlighting.
     :straight t)
 #+END_SRC
 
+** Emacs Lisp
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-cask
+    :straight t
+    :hook ((emacs-lisp-mode flycheck-mode) . flycheck-cask-setup))
+#+END_SRC
