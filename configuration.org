@@ -612,7 +612,12 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :config
     (defun poetry-get-python-executable ()
       (let ((venv_dir (poetry-get-virtualenv)))
-        (when venv_dir (concat venv_dir "/bin/python")))))
+        (when venv_dir (concat venv_dir "/bin/python"))))
+    :hook ((python-mode
+            . (lambda ()
+                (require 'poetry)
+                (setq python-shell-interpreter
+                      (poetry-get-python-executable))))))
 
   (use-package lsp-python-ms
     :straight (:host github :repo "emacs-lsp/lsp-python-ms")
@@ -647,6 +652,8 @@ It will check and configure with venv created by poetry.
                    (setq python-shell-interpreter
                          (poetry-get-python-executable))))))))
 #+END_SRC
+
+I add a hooking to set it by default via =poetry=.
 
 *** How to configure flycheck
 
