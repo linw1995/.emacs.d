@@ -586,7 +586,14 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     (flycheck-disabled-checkers
      '(python-mypy python-pylint))
     :config
-    (global-flycheck-mode))
+    (global-flycheck-mode)
+    :hook
+    ((lsp-diagnostics-mode
+      . (lambda ()
+          (require 'flycheck)
+          ;; lsp checker being defined after diagnostics mode loaded.
+          (flycheck-add-next-checker 'lsp
+                                     'python-flake8)))))
 
   (use-package lsp-ui
     :straight t
