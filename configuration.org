@@ -570,12 +570,32 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
 ** Python
 
+*** Core -- LSP Supports
+
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :straight t
     :commands (lsp lsp-deferred)
     :config (setq lsp-enable-snippet t))
 
+  (use-package lsp-ui
+    :straight t
+    :commands lsp-ui-mode
+    :hook (lsp-mode . lsp-ui-mode))
+
+  (use-package lsp-python-ms
+    :straight (:host github :repo "emacs-lsp/lsp-python-ms")
+    :init
+    (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
+    :hook ((python-mode
+            . (lambda ()
+                (require 'lsp-python-ms)
+                (lsp-deferred)))))
+#+END_SRC
+
+*** Linting tools on the fly
+
+#+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :straight t
     :ensure t
@@ -594,18 +614,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
           ;; lsp checker being defined after diagnostics mode loaded.
           (flycheck-add-next-checker 'lsp
                                      'python-flake8)))))
+#+END_SRC
 
-  (use-package lsp-ui
-    :straight t
-    :commands lsp-ui-mode
-    :hook (lsp-mode . lsp-ui-mode))
+*** Manage python packages via Poetry
 
-  (use-package python-black
-    :straight t)
-
-  (use-package python-isort
-    :straight (:type git :host github :repo "linw1995/emacs-python-isort"))
-
+#+BEGIN_SRC emacs-lisp
   (use-package poetry
     :straight t
     :commands poetry
@@ -615,27 +628,41 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
         (when venv_dir (concat venv_dir "/bin/python"))))
     :hook ((python-mode
             . (lambda ()
+                ;; Configure the python shell interpreter
                 (require 'poetry)
                 (setq python-shell-interpreter
                       (poetry-get-python-executable))))))
+#+END_SRC
 
-  (use-package lsp-python-ms
-    :straight (:host github :repo "emacs-lsp/lsp-python-ms")
-    :init
-    (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
-    :hook ((hack-local-variables
-            . (lambda ()
-                (when (derived-mode-p 'python-mode)
-                  (require 'lsp-python-ms)
-                  (lsp-deferred))))))
+*** MISC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python-black
+    :straight t)
+
+  (use-package python-isort
+    :straight (:type git :host github :repo "linw1995/emacs-python-isort"))
 
   (add-hook 'python-mode-hook 'tabs-disable)
 #+END_SRC
 
-*** How to set path of the Python executable explicitly?
+*** Q&A
+**** How to set path of the Python executable explicitly?
 
-Create a =.dir-locals.el= file with the below code in the root directory of each project/worksplace.
-And you can modify the string value that is absolute path of the Python executable.
+Set the variable ~lsp-python-ms-python-executable~ before the =lsp-mode= being loaded.
+
+First, add ~hack-local-variables-hook~ in =init.el= to make loading =lsp-mode= after the =.dir-locals.el= file of each project/workspace being loaded. And define a variable alias ~python-shell-interpreter~ in =init.el=.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-hook 'hack-local-variables-hook
+               (lambda ()
+                 (when (derived-mode-p 'python-mode)
+                   (require 'lsp-python-ms)
+                   (lsp)))) ; or lsp-deferred
+  (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
+#+END_SRC
+
+Second, create =.dir-locals.el= file in the root directory of project to specify the varibale ~python-shell-interpreter~ (alias of ~lsp-python-ms-python-executable~) for the project/workspace.p
 
 #+BEGIN_SRC emacs-lisp :tangle no
   ((python-mode
@@ -653,9 +680,11 @@ It will check and configure with venv created by poetry.
                          (poetry-get-python-executable))))))))
 #+END_SRC
 
-I add a hooking to set it by default via =poetry=.
+I add a hooking to set it by default via =poetry=. [[*Manage python packages via Poetry]]
 
-*** How to configure flycheck
+**** How to configure flycheck
+
+Create a =.dir-locals.el= file with the below code in root of each project/worksapce to configure =flycheck=.
 
 #+BEGIN_SRC emacs-lisp :tangle no
   ((python-mode
