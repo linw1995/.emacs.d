@@ -50,5 +50,6 @@
  ("transient" . "f5d81ef0ed24be935f3c0192b746a1738d903d37")
  ("use-package" . "4fb1f9a68f1e7e7d614652afc017a6652fd029f1")
  ("with-editor" . "efafd482c21b90decbb0b682ed3159c86014d4f3")
+ ("yaml-mode" . "68fecb5f0dec712a10c8655df6881392a4613617")
  ("yasnippet" . "5cbdbf0d2015540c59ed8ee0fcf4788effdf75b6"))
 :beta

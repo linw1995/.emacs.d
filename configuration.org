@@ -764,3 +764,10 @@ Use htmlize to support exporting code with syntax highlighting.
     :straight t
     :hook ((emacs-lisp-mode flycheck-mode) . flycheck-cask-setup))
 #+END_SRC
+
+** YAML
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :straight (:type git :host github :repo "yoshiki/yaml-mode"))
+#+END_SRC
