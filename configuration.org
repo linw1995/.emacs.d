@@ -638,10 +638,12 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
 #+BEGIN_SRC emacs-lisp
   (use-package python-black
-    :straight t)
+    :straight t
+    :hook (python-mode . python-black-on-save-mode))
 
   (use-package python-isort
-    :straight (:type git :host github :repo "linw1995/emacs-python-isort"))
+    :straight (:type git :host github :repo "linw1995/emacs-python-isort")
+    :hook (python-mode . python-isort-on-save-mode))
 
   (add-hook 'python-mode-hook 'tabs-disable)
 #+END_SRC
