@@ -384,7 +384,10 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
                     (visual-line-mode nil t)
                     (auto-revert-mode nil t)
                     (tree-sitter-mode nil t)
-                    (page-break-lines-mode nil t))))))
+                    (page-break-lines-mode nil t)
+                    (wrap-region-mode nil t)
+                    (wakatime-mode nil t)
+                    (whitespace-mode nil t))))))
 #+END_SRC
 
 ** Theme Configuration
