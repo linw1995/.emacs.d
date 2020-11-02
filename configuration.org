@@ -148,15 +148,18 @@ No Tabs by default.
 *** Syntax Highlighting
 
 #+BEGIN_SRC emacs-lisp
+  (use-package tsc
+    :straight (:type git :host github :repo "ubolonton/emacs-tree-sitter" :files ("core/*.el")))
+
   (use-package tree-sitter
     :straight
-    (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
+    (:type git :host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
     :hook
     ((python-mode . tree-sitter-hl-mode)))
 
   (use-package tree-sitter-langs
     :straight
-    (:host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
+    (:type git :host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
 #+END_SRC
 
 * Key Binding Configuration
