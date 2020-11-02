@@ -344,6 +344,32 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 #+END_SRC
 
 * Appearance Configuration
+
+** Frames Management
+
+#+BEGIN_SRC emacs-lisp
+  (use-package persp-mode
+    :straight t
+    :config
+    (setq wg-morph-on nil) ;; switch off animation
+    (setq persp-autokill-buffer-on-remove 'kill-weak)
+    (add-hook 'window-setup-hook
+              (lambda ()
+                (when-let (project-root (projectile-project-root))
+                  (setq-default persp-save-dir
+                                (expand-file-name ".persp-confs/" project-root))
+                  (persp-mode 1))))
+    (add-to-list 'persp-filter-save-buffers-functions
+                 (lambda (b)
+                   "Ignore temporary buffers."
+                   (let ((bname (file-name-nondirectory (buffer-name b))))
+                     (or (string-prefix-p "magit" bname)
+                         (string-equal "*ansi-term*" bname)
+                         (string-prefix-p "*" bname)
+                         ;; and more
+                         )))))
+#+END_SRC
+
 ** Enables you to customise the mode names displayed in the mode line.
 
 #+BEGIN_SRC emacs-lisp

@@ -35,6 +35,7 @@
  ("org-journal" . "72eade072656900cb047eabb32713e66623d98eb")
  ("page-break-lines" . "f8c4cd7fc67638ae4113551dcffdf87fcd252d9b")
  ("paredit" . "8330a41e8188fe18d3fa805bb9aa529f015318e8")
+ ("persp-mode.el" . "c132efe3094ce1368f54195028b29b82c65a64dc")
  ("pkg-info" . "76ba7415480687d05a4353b27fea2ae02b8d9d61")
  ("poetry.el" . "22a76cdcba180b4689a6b45c97669e3c76cd36ed")
  ("pos-tip" . "179cc126b363f72ca12fab1e0dc462ce0ee79742")
