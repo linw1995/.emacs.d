@@ -12,7 +12,7 @@
  ("emacs-ob-racket" . "34f27cf32ddd167c0158fd626c8c411917ed84bb")
  ("emacs-python-black" . "a11ca73f6dfcdc125d27ff184496d66bdbd71326")
  ("emacs-python-isort" . "1fd246c54ac6726c00d16bcea643682d174ac4a6")
- ("emacs-tree-sitter" . "36393129ab361ddfb4dc52bd9076e5cacf4ad07c")
+ ("emacs-tree-sitter" . "f5065c86b067577d162850af21598921128bd33b")
  ("emacsmirror-mirror" . "83bfe8b5f9bcd3653dbea383776183c6d36841ac")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("exec-path-from-shell" . "18cad603c45c5544e8a9666be64d0c51bbc1af90")

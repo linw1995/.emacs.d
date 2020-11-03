@@ -156,12 +156,8 @@ No Tabs by default.
 *** Syntax Highlighting
 
 #+BEGIN_SRC emacs-lisp
-  (use-package tsc
-    :straight (:type git :host github :repo "ubolonton/emacs-tree-sitter" :files ("core/*.el")))
-
   (use-package tree-sitter
-    :straight
-    (:type git :host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
+    :straight t
     :hook
     ((python-mode . tree-sitter-hl-mode))
     :config
@@ -200,8 +196,7 @@ No Tabs by default.
       (fk/python-f-string-ify)))
 
   (use-package tree-sitter-langs
-    :straight
-    (:type git :host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
+    :straight t
 #+END_SRC
 
 * Key Binding Configuration
