@@ -50,6 +50,7 @@ Integration with [[https://github.com/jwiegley/use-package][use-package]].
 
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'use-package)
+  (setq-default use-package-always-defer t)
 #+END_SRC
 
 * Profiler
@@ -205,6 +206,7 @@ No Tabs by default.
 
   (use-package tree-sitter-langs
     :straight t
+    :demand)
 #+END_SRC
 
 * Key Binding Configuration
@@ -244,6 +246,10 @@ Ensure environment variables inside Emacs look the same as in the user's shell.
   (use-package exec-path-from-shell
     :straight t
     :if (memq window-system '(mac ns))
+    :init
+    (setq exec-path-from-shell-check-startup-files nil
+          exec-path-from-shell-variables '("PATH")
+          exec-path-from-shell-arguments '("-l"))
     :config
     (exec-path-from-shell-initialize))
 #+END_SRC
@@ -353,15 +359,16 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package persp-mode
     :straight t
+    :hook
+    (window-setup
+     . (lambda ()
+         (when-let (project-root (projectile-project-root))
+           (setq-default persp-save-dir
+                         (expand-file-name ".persp-confs/" project-root))
+           (persp-mode 1))))
     :config
     (setq wg-morph-on nil) ;; switch off animation
     (setq persp-autokill-buffer-on-remove 'kill-weak)
-    (add-hook 'window-setup-hook
-              (lambda ()
-                (when-let (project-root (projectile-project-root))
-                  (setq-default persp-save-dir
-                                (expand-file-name ".persp-confs/" project-root))
-                  (persp-mode 1))))
     (add-to-list 'persp-filter-save-buffers-functions
                  (lambda (b)
                    "Ignore temporary buffers."
@@ -399,6 +406,7 @@ Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
     :straight t
+    :demand
     :config
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -466,7 +474,7 @@ Change the opacity of the frame.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :straight t
-    :ensure t
+    :demand
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents  . 5)
@@ -539,19 +547,24 @@ Configure =<C-s>= and =<C-r>= to activate swiper. And =swiper-C-r= function, whi
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
     :straight t
+    :demand
     :delight
     :config
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
     (setq ivy-count-format "(%d/%d) ")
     (ivy-mode 1))
+
   (use-package counsel
     :straight t
+    :demand
     :after ivy
     :bind ("M-x" . 'counsel-M-x))
+
   (use-package swiper
     :straight t
     :after ivy
+    :demand
     :config
     (defun swiper-C-r (&optional arg)
       "Move cursor vertically down ARG candidates. If the input is empty, select the previous history element instead."
@@ -629,7 +642,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :straight t
-    :config
+    :init
     (global-set-key (kbd "C-x g") 'magit-status))
 #+END_SRC
 
