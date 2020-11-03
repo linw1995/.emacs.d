@@ -656,6 +656,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :config
     (setq org-journal-dir "~/Documents/me/log")
     (setq org-journal-enable-agenda-integration t))
+#+END_SRC
+
 *** WakaTime
 
 #+BEGIN_SRC emacs-lisp
