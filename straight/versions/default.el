@@ -15,6 +15,7 @@
  ("emacs-tree-sitter" . "f5065c86b067577d162850af21598921128bd33b")
  ("emacsmirror-mirror" . "83bfe8b5f9bcd3653dbea383776183c6d36841ac")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
+ ("esup" . "0de8af8233d9ce1b67f05a50f25c481c4f1118d8")
  ("exec-path-from-shell" . "18cad603c45c5544e8a9666be64d0c51bbc1af90")
  ("f.el" . "1814209e2ff43cf2e6d38c4cd476218915f550fb")
  ("faceup" . "6c92dad56a133e14e7b27831e1bcf9b3a71ff154")

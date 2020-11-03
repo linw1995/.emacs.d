@@ -52,6 +52,14 @@ Integration with [[https://github.com/jwiegley/use-package][use-package]].
   (straight-use-package 'use-package)
 #+END_SRC
 
+* Profiler
+
+#+BEGIN_SRC emacs-lisp
+  (use-package esup
+    :straight t
+    :commands (esup))
+#+END_SRC
+
 * Editor Configuration
 
 Change cursor type.
