@@ -159,7 +159,8 @@ No Tabs by default.
 #+BEGIN_SRC emacs-lisp
   (use-package wrap-region
     :straight (:type git :host github repo "rejeep/wrap-region.el")
-    :config (wrap-region-global-mode))
+    :delight
+    :hook ((python-mode . wrap-region-mode)))
 #+END_SRC
 
 *** Syntax Highlighting
