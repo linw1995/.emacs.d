@@ -23,10 +23,12 @@
 Dired is a directory editor on Emacs. It uses =ls= program.
 On macOS, ls does not support =--dired= option.
 Appending below codes into =.emacs= file to configure dired using =ls= without =--dired=.
+
 #+BEGIN_SRC emacs-lisp
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired nil))
 #+END_SRC
+
 * Package Managing
 
 Bootstrapping [[https://github.com/raxod502/straight.el][straight.el]].
@@ -354,7 +356,6 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 #+END_SRC
 
 * Appearance Configuration
-
 ** Frames Management
 
 #+BEGIN_SRC emacs-lisp
@@ -667,7 +668,6 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :config
     (global-wakatime-mode))
 #+END_SRC
-
 
 * Programing Configuration
 
