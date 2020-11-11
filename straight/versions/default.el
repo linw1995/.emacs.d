@@ -40,6 +40,8 @@
  ("persp-mode.el" . "c132efe3094ce1368f54195028b29b82c65a64dc")
  ("pkg-info" . "76ba7415480687d05a4353b27fea2ae02b8d9d61")
  ("poetry.el" . "eb238d9085d884ffb2b7fda985cca1ce81747d58")
+ ("poly-markdown" . "1536cf0c32f71d5cd05c90f7905905e38006e95d")
+ ("polymode" . "3284ff10017d280ba82f27dc20fe5223b0df709c")
  ("pos-tip" . "179cc126b363f72ca12fab1e0dc462ce0ee79742")
  ("projectile" . "d1daf274e8ca2eb0f20475b8f314bb955167c6a1")
  ("pyvenv" . "861998b6d157ae73b829f02a5a6c8a9118310831")

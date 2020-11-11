@@ -860,6 +860,10 @@ Use htmlize to support exporting code with syntax highlighting.
            ("\\.md\\'" . markdown-mode)
            ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "multimarkdown"))
+
+  (use-package poly-markdown
+    :straight t
+    :hook (markdown-mode . poly-markdown-mode))
 #+END_SRC
 
 ** Emacs Lisp
