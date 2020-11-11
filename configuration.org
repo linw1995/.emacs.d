@@ -521,6 +521,29 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
            (racket-repl-mode . rainbow-delimiters-mode)))
 #+END_SRC
 
+** Modeline
+
+#+BEGIN_SRC emacs-lisp
+  (defun +simple-mode-line-render (left right)
+    "Return a string of `window-width' length containing LEFT, and RIGHT
+   aligned respectively."
+    (let* ((available-width (- (window-width) (length left) 2)))
+      (format (format " %%s %%%ds " available-width) left right)))
+
+  (setq-default mode-line-format
+                '((:eval
+                   (+simple-mode-line-render
+                    ;; left
+                    (format-mode-line
+                     '(" %l:%C "
+                       (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))))
+                    ;; right
+                    (format-mode-line
+                     '((:eval (when (functionp #'+smart-file-name) (+smart-file-name)))
+                       "%* %m"
+                       (vc-mode vc-mode)))))))
+#+END_SRC
+
 * Project Managing Configuration
 
 Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
