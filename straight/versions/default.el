@@ -57,6 +57,7 @@
  ("wakatime-mode" . "7626678315918bdbb81ede68149f20a7d97a928f")
  ("with-editor" . "6735180e73e787b79535c245b162249b70dbf841")
  ("wrap-region.el" . "fbae9b0f106187af19823f1a6260b5c68b7252e6")
+ ("xterm-color" . "b9b1f84fb10fff5261702e38bf15b3ae75a4b6bb")
  ("yaml-mode" . "831ef3a04e4d32ec3fa3d77a54dc7e7bc5b6fd81")
  ("yasnippet" . "5cbdbf0d2015540c59ed8ee0fcf4788effdf75b6"))
 :beta

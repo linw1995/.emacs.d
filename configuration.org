@@ -244,7 +244,31 @@ See [[https://stackoverflow.com/a/40222318/7035932][Stackoverflow Answer]] for m
 
 * Shell Configuration
 
+Support ANSI & xterm-256 color
+
+#+BEGIN_SRC emacs-lisp
+  (use-package xterm-color
+    :straight t
+    :config
+    (when (derived-mode-p 'eshell-mode)
+      (add-to-list 'eshell-preoutput-filter-functions
+                   'xterm-color-filter)
+      (setq eshell-output-filter-functions
+            (remove 'eshell-handle-ansi-color
+                    eshell-output-filter-functions))
+      (setenv "TERM" "xterm-256color"))
+    :hook
+    ((shell-mode . (lambda ()
+                     (font-lock-mode -1)
+                     (make-local-variable 'font-lock-function)
+                     (setq font-lock-function (lambda (_) nil))
+                     (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+     (eshell-before-prompt . (lambda ()
+                               (setq xterm-color-preserve-properties t)))))
+#+END_SRC
+
 Ensure environment variables inside Emacs look the same as in the user's shell.
+
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :straight t
@@ -297,7 +321,8 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
     "Ensure the shell buffer existed."
     (unless (toggle-shell--shell-buffer-existed?)
       (toggle-shell--dump-window-configuration)
-      (setq toggle-shell--shell-buffer (ansi-term explicit-shell-file-name)) ; create new shell buffer
+      ;(setq toggle-shell--shell-buffer (ansi-term explicit-shell-file-name)) ; create new shell buffer
+      (setq toggle-shell--shell-buffer (eshell)) ; create new shell buffer
       (toggle-shell--restore-window-configuration)))
 
   (defun toggle-shell--switch-to-shell ()
