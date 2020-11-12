@@ -776,8 +776,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package org-journal
     :straight t
     :config
-    (setq org-journal-dir "~/Documents/me/log")
     (setq org-journal-enable-agenda-integration t))
+    (setq org-journal-dir "~/Sync/log")
 #+END_SRC
 
 *** WakaTime
