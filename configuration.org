@@ -831,21 +831,31 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   nil."
       (require 'doom-themes)
       (pcase (or status flycheck-last-status-change)
-                    (`not-checked "not-checked")
-                    (`no-checker "no-checker")
-                    (`running "checking")
-                    (`errored "error")
-                    (`finished
-                     (let-alist (flycheck-count-errors flycheck-current-errors)
-                       (format "%s/%s/%s"
-                                   (propertize (int-to-string (or .error 0))
-                                               'face (list :foreground (doom-color 'red)))
-                                   (propertize (int-to-string (or .warning 0))
-                                               'face (list :foreground (doom-color 'yellow)))
-                                   (propertize (int-to-string (or .info 0))
-                                               'face (list :foreground (doom-color 'green))))))
-                    (`interrupted "interrupted")
-                    (`suspicious "?")))
+        (`not-checked "not-checked")
+        (`no-checker "no-checker")
+        (`running "checking")
+        (`errored "error")
+        (`finished
+         (let-alist (flycheck-count-errors flycheck-current-errors)
+           ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
+           (propertize (format "%s/%s/%s"
+                               (propertize (int-to-string (or .error 0))
+                                           'face (list :foreground (doom-color 'red)))
+                               (propertize (int-to-string (or .warning 0))
+                                           'face (list :foreground (doom-color 'yellow)))
+                               (propertize (int-to-string (or .info 0))
+                                           'face (list :foreground (doom-color 'green))))
+                       'help-echo "mouse-1: Click me"
+                       'mouse-face 'mode-line-highlight
+                       ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Clickable-Text.html
+                       'local-map (let ((map (make-sparse-keymap)))
+                                    (define-key map [follow-link]
+                                      (lambda (pos)
+                                        (flycheck-list-errors)))
+                                    map))
+           ))
+        (`interrupted "interrupted")
+        (`suspicious "?")))
     :custom
     (flycheck-disabled-checkers
      '(python-mypy python-pylint))
