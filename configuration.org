@@ -891,10 +891,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
         (when venv_dir (concat venv_dir "/bin/python"))))
     :hook ((python-mode
             . (lambda ()
-                ;; Configure the python shell interpreter
-                (require 'poetry)
-                (setq python-shell-interpreter
-                      (poetry-get-python-executable))))))
+                (unless python-shell-interpreter
+                  ;; Configure the python shell interpreter
+                  (require 'poetry)
+                  (setq-local python-shell-interpreter
+                              (poetry-get-python-executable)))))))
 #+END_SRC
 
 *** MISC
