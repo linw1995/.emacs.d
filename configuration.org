@@ -840,7 +840,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   nil."
       (pcase (or status flycheck-last-status-change)
         (`not-checked "not-checked")
-        (`no-checker "no-checker")
+        (`no-checker "no-checkers")
         (`running "checking")
         (`errored "error")
         (`finished
