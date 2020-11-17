@@ -818,7 +818,9 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package lsp-ui
     :straight t
     :commands lsp-ui-mode
-    :hook (lsp-mode . lsp-ui-mode))
+    :hook (lsp-mode . lsp-ui-mode)
+    :config
+    (setq lsp-ui-doc-position #'at-point))
 
   (use-package lsp-python-ms
     :straight (:host github :repo "emacs-lsp/lsp-python-ms")
