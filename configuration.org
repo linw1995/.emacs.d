@@ -810,7 +810,6 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+END_SRC
 
 * Programing Configuration
-
 ** Python
 
 *** Core -- LSP Supports
