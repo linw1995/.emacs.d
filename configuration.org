@@ -789,9 +789,15 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+BEGIN_SRC emacs-lisp
   (use-package org-journal
     :straight t
-    :config
-    (setq org-journal-enable-agenda-integration t))
-    (setq org-journal-dir "~/Sync/log")
+    :demand t
+    :bind
+    ("C-c n j" . org-journal-new-entry)
+    :custom
+    (org-journal-date-prefix "#+title: ")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-dir "~/Sync/log")
+    (org-journal-date-format "%A, %d %B %Y")
+    (org-journal-enable-agenda-integration t))
 #+END_SRC
 
 *** WakaTime
@@ -1016,6 +1022,44 @@ Use htmlize to support exporting code with syntax highlighting.
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :straight t)
+#+END_SRC
+
+Org-Roam
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :straight t
+    :hook
+    (after-init . org-roam-mode)
+    (org-roam-server-mode
+     . (lambda ()
+         (require 'org-roam-protocol)))
+    :custom
+    (org-roam-directory "~/Sync/wiki/")
+    :bind (:map org-roam-mode-map
+                (("C-c n l" . org-roam)
+                 ("C-c n f" . org-roam-find-file)
+                 ("C-c n g" . org-roam-graph))
+                :map org-mode-map
+                (("C-c n i" . org-roam-insert))
+                (("C-c n I" . org-roam-insert-immediate))))
+
+  (use-package org-roam-server
+    :straight t
+    ;; :hook
+    ;; (org-roam-mode . org-roam-server-mode)
+    :init
+    (setq org-roam-server-host "127.0.0.1"
+          org-roam-server-port 9999
+          org-roam-server-authenticate nil
+          org-roam-server-export-inline-images t
+          org-roam-server-serve-files nil
+          org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+          org-roam-server-network-poll t
+          org-roam-server-network-arrows nil
+          org-roam-server-network-label-truncate t
+          org-roam-server-network-label-truncate-length 60
+          org-roam-server-network-label-wrap-length 20))
 #+END_SRC
 
 ** Markdown
