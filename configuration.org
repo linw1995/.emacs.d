@@ -258,22 +258,27 @@ Support ANSI & xterm-256 color
 #+BEGIN_SRC emacs-lisp
   (use-package xterm-color
     :straight t
-    :config
-    (when (derived-mode-p 'eshell-mode)
-      (add-to-list 'eshell-preoutput-filter-functions
-                   'xterm-color-filter)
-      (setq eshell-output-filter-functions
-            (remove 'eshell-handle-ansi-color
-                    eshell-output-filter-functions))
-      (setenv "TERM" "xterm-256color"))
     :hook
-    ((shell-mode . (lambda ()
-                     (font-lock-mode -1)
-                     (make-local-variable 'font-lock-function)
-                     (setq font-lock-function (lambda (_) nil))
-                     (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
-     (eshell-before-prompt . (lambda ()
-                               (setq xterm-color-preserve-properties t)))))
+    ((shell-mode
+      . (lambda ()
+          (font-lock-mode -1)
+          (make-local-variable 'font-lock-function)
+          (setq font-lock-function (lambda (_) nil))
+          (add-hook 'comint-preoutput-filter-functions
+                    'xterm-color-filter
+                    nil
+                    t)))
+     (eshell-before-prompt
+      . (lambda ()
+          (setq xterm-color-preserve-properties
+                t)
+          (add-to-list 'eshell-preoutput-filter-functions
+                       'xterm-color-filter)
+          (setq eshell-output-filter-functions
+                (remove 'eshell-handle-ansi-color
+                        eshell-output-filter-functions))
+          (setenv "TERM"
+                  "xterm-256color")))))
 #+END_SRC
 
 Ensure environment variables inside Emacs look the same as in the user's shell.
