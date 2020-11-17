@@ -1048,3 +1048,13 @@ Use htmlize to support exporting code with syntax highlighting.
   (use-package yaml-mode
     :straight (:type git :host github :repo "yoshiki/yaml-mode"))
 #+END_SRC
+
+** MISC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package valign
+    :straight (:host github :repo "casouri/valign")
+    :hook
+    ((org-mode . valign-mode)
+     (markdown-mode . valign-mode)))
+#+END_SRC

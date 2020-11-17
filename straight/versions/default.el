@@ -54,6 +54,7 @@
  ("swiper" . "e58bfc162a2df5b67a820d0311c313d3db522073")
  ("transient" . "e2fee1987902fb9963c85a62fa680082a878d460")
  ("use-package" . "4fb1f9a68f1e7e7d614652afc017a6652fd029f1")
+ ("valign" . "4f3eccdf94e0b0d233968e84443003bb3e77453a")
  ("wakatime-mode" . "7626678315918bdbb81ede68149f20a7d97a928f")
  ("with-editor" . "6735180e73e787b79535c245b162249b70dbf841")
  ("wrap-region.el" . "fbae9b0f106187af19823f1a6260b5c68b7252e6")
