@@ -1049,6 +1049,13 @@ Use htmlize to support exporting code with syntax highlighting.
     :straight (:type git :host github :repo "yoshiki/yaml-mode"))
 #+END_SRC
 
+** JSON
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json-navigator
+    :straight t)
+#+END_SRC
+
 ** MISC
 
 #+BEGIN_SRC emacs-lisp
