@@ -729,7 +729,14 @@ Use [[http://company-mode.github.io/][company-mode]] for text completion.
     :hook ((emacs-lisp-mode . company-mode)
            (racket-mode . company-mode)
            (racket-repl-mode . company-mode)
-           (python-mode . company-mode)))
+           (python-mode . company-mode)
+           (org-mode . (lambda ()
+                         (require 'company)
+                         (let ((local-company-backends
+                               (cons 'company-capf company-backends)))
+                           (set (make-local-variable 'company-backends)
+                                local-company-backends))
+                         (company-mode)))))
 
   (use-package company-box
     :straight t
