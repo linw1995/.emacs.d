@@ -780,6 +780,14 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :init
     (global-set-key (kbd "C-x g") 'magit-status))
+
+  (use-package magit-delta
+    :straight t
+    :custom
+    (magit-delta-default-light-theme "Solarized (light)")
+    (magit-delta-default-dark-theme "Solarized (dark)")
+    :hook
+    (magit-mode . magit-delta-mode))
 #+END_SRC
 
 ** GTD
