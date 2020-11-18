@@ -1036,13 +1036,21 @@ Org-Roam
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :straight t
+    :init
+    (defun my/org-roam-db-rebuild-cache ()
+      (interactive)
+      (org-roam-db-clear)
+      (org-roam-db-build-cache))
+    (defun my/org-roam-server ()
+      (interactive)
+      (server-mode)
+      (org-roam-server-mode)
+      (require 'org-roam-protocol))
     :hook
     (after-init . org-roam-mode)
-    (org-roam-server-mode
-     . (lambda ()
-         (require 'org-roam-protocol)))
     :custom
     (org-roam-directory "~/Sync/wiki/")
+    (org-roam-db-location "~/Sync/wiki/org-roam.db")
     :bind (:map org-roam-mode-map
                 (("C-c n l" . org-roam)
                  ("C-c n f" . org-roam-find-file)
