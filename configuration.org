@@ -400,6 +400,8 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package persp-mode
     :straight t
+    :custom
+    (persp-keymap-prefix (kbd "C-c C-p"))
     :hook
     (window-setup
      . (lambda ()
