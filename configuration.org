@@ -911,6 +911,22 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 *** Manage python packages via Poetry
 
 #+BEGIN_SRC emacs-lisp
+  (defun get-python-shell-interpreter-of-project ()
+    "get python shell interpreter of project via poetry"
+    (unless (boundp 'my/project-root-2-python-shell-interpreter)
+      (setq my/project-root-2-python-shell-interpreter
+            (make-hash-table :test 'equal)))
+    (let ((project-root (projectile-project-root)))
+      (unless (gethash project-root
+                       my/project-root-2-python-shell-interpreter)
+        ;; Configure the python shell interpreter
+        (require 'poetry)
+        (puthash project-root
+                 (poetry-get-python-executable)
+                 my/project-root-2-python-shell-interpreter))
+      (gethash project-root
+               my/project-root-2-python-shell-interpreter)))
+
   (use-package poetry
     :straight t
     :commands poetry
@@ -920,11 +936,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
         (when venv_dir (concat venv_dir "/bin/python"))))
     :hook ((python-mode
             . (lambda ()
-                (unless python-shell-interpreter
-                  ;; Configure the python shell interpreter
-                  (require 'poetry)
-                  (setq-local python-shell-interpreter
-                              (poetry-get-python-executable)))))))
+                (setq python-shell-interpreter
+                      (get-python-shell-interpreter-of-project))))))
 #+END_SRC
 
 *** MISC
