@@ -32,10 +32,6 @@ Appending below codes into =.emacs= file to configure dired using =ls= without =
 ** Helper Functions
 
 #+BEGIN_SRC emacs-lisp
-  (defun linw1995/get-color (name)
-    (if (require 'doom-themes nil t)
-        (doom-color name)
-      (symbol-name name)))
 #+END_SRC
 
 * Package Managing
@@ -149,7 +145,7 @@ Plenty of codes are copied from [[https://dougie.io/emacs/indentation/][The Ulti
      ;; This will also show trailing characters as they are useful to spot.
     (setq whitespace-style '(face tabs tab-mark trailing))
     (custom-set-faces
-     `(whitespace-tab ((t (:foreground ,(linw1995/get-color 'red))))))
+     `(whitespace-tab ((t (:foreground ,(face-attribute 'error :foreground))))))
     (setq whitespace-display-mappings
           '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
     (global-whitespace-mode) ; Enable whitespace mode everywhere
@@ -877,11 +873,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
            ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
            (propertize (format "%s/%s/%s"
                                (propertize (int-to-string (or .error 0))
-                                           'face (list :foreground (linw1995/get-color 'red)))
+                                           'face 'error)
                                (propertize (int-to-string (or .warning 0))
-                                           'face (list :foreground (linw1995/get-color 'yellow)))
+                                           'face 'warning)
                                (propertize (int-to-string (or .info 0))
-                                           'face (list :foreground (linw1995/get-color 'green))))
+                                           'face 'success))
                        'help-echo "mouse-1: Click me"
                        'mouse-face 'mode-line-highlight
                        ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Clickable-Text.html
