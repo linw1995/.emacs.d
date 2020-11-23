@@ -859,36 +859,44 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :init
     (setq-default lsp-modeline-diagnostics-enable nil)
     (defvaralias 'flycheck-python-flake8-executable 'python-shell-interpreter)
+    (defun linw1995/flycheck-mode-line-jumper (str keybind)
+      ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
+      (propertize str
+                  'help-echo "mouse-1: Click me"
+                  'mouse-face 'mode-line-highlight
+                  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Clickable-Text.html
+                  'local-map (let ((map (make-sparse-keymap)))
+                               (define-key map [follow-link]
+                                 keybind)
+                               map)))
     (defun linw1995/flycheck-mode-line-status-text (&optional status)
       "Get a text describing STATUS for use in the mode line.
   STATUS defaults to `flycheck-last-status-change' if omitted or
   nil."
-      (pcase (or status flycheck-last-status-change)
-        (`not-checked "not-checked")
-        (`no-checker "no-checkers")
-        (`running "checking")
-        (`errored "error")
-        (`finished
-         (let-alist (flycheck-count-errors flycheck-current-errors)
-           ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
-           (propertize (format "%s/%s/%s"
-                               (propertize (int-to-string (or .error 0))
-                                           'face 'error)
-                               (propertize (int-to-string (or .warning 0))
-                                           'face 'warning)
-                               (propertize (int-to-string (or .info 0))
-                                           'face 'success))
-                       'help-echo "mouse-1: Click me"
-                       'mouse-face 'mode-line-highlight
-                       ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Clickable-Text.html
-                       'local-map (let ((map (make-sparse-keymap)))
-                                    (define-key map [follow-link]
-                                      (lambda (pos)
-                                        (flycheck-list-errors)))
-                                    map))
-           ))
-        (`interrupted "interrupted")
-        (`suspicious "?")))
+      (require 'cl-lib)
+      (cl-flet ((jumper #'linw1995/flycheck-mode-line-jumper))
+        (pcase (or status flycheck-last-status-change)
+          (`finished
+           (let-alist (flycheck-count-errors flycheck-current-errors)
+             (jumper (format "%s/%s/%s"
+                             (propertize (int-to-string (or .error 0))
+                                         'face 'error)
+                             (propertize (int-to-string (or .warning 0))
+                                         'face 'warning)
+                             (propertize (int-to-string (or .info 0))
+                                         'face 'success))
+                     (lambda (pos) (flycheck-list-errors)))))
+          (code
+           (jumper (pcase code
+                     (`not-checked "not-checked")
+                     (`no-checker "no-checkers")
+                     (`running "checking")
+                     (`errored "error")
+                     (`interrupted "interrupted")
+                     (`suspicious "?"))
+                   (lambda (pos)
+                     (flycheck-verify-setup)
+                     (switch-to-buffer "*Flycheck checkers*")))))))
     :custom
     (flycheck-disabled-checkers
      '(python-mypy python-pylint))
