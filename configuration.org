@@ -911,8 +911,15 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 *** Manage python packages via Poetry
 
 #+BEGIN_SRC emacs-lisp
-  (defun get-python-shell-interpreter-of-project ()
+  (defun my/poetry-get-python-executable ()
+    (require 'poetry)
+    (let ((venv_dir (poetry-get-virtualenv)))
+      (when venv_dir (concat (file-name-as-directory venv_dir)
+                             "bin/python"))))
+
+  (defun my/get-python-shell-interpreter-of-project ()
     "get python shell interpreter of project via poetry"
+    (require 'projectile)
     (unless (boundp 'my/project-root-2-python-shell-interpreter)
       (setq my/project-root-2-python-shell-interpreter
             (make-hash-table :test 'equal)))
@@ -920,9 +927,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
       (unless (gethash project-root
                        my/project-root-2-python-shell-interpreter)
         ;; Configure the python shell interpreter
-        (require 'poetry)
         (puthash project-root
-                 (poetry-get-python-executable)
+                 (my/poetry-get-python-executable)
                  my/project-root-2-python-shell-interpreter))
       (gethash project-root
                my/project-root-2-python-shell-interpreter)))
@@ -930,14 +936,10 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package poetry
     :straight t
     :commands poetry
-    :config
-    (defun poetry-get-python-executable ()
-      (let ((venv_dir (poetry-get-virtualenv)))
-        (when venv_dir (concat venv_dir "/bin/python"))))
     :hook ((python-mode
             . (lambda ()
                 (setq python-shell-interpreter
-                      (get-python-shell-interpreter-of-project))))))
+                      (my/get-python-shell-interpreter-of-project))))))
 #+END_SRC
 
 *** MISC
@@ -945,11 +947,25 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+BEGIN_SRC emacs-lisp
   (use-package python-black
     :straight t
-    :hook (python-mode . python-black-on-save-mode))
+    :hook (python-mode . python-black-on-save-mode)
+    :config
+    (when-let ((python-bin (my/get-python-shell-interpreter-of-project))
+               (black-bin (concat (file-name-directory (directory-file-name python-bin))
+                                  "black")))
+      (when (file-exists-p black-bin)
+        (setq python-black-command
+              black-bin))))
 
   (use-package python-isort
     :straight (:type git :host github :repo "linw1995/emacs-python-isort")
-    :hook (python-mode . python-isort-on-save-mode))
+    :hook (python-mode . python-isort-on-save-mode)
+    :config
+    (when-let ((python-bin (my/get-python-shell-interpreter-of-project))
+               (isort-bin (concat (file-name-directory (directory-file-name python-bin))
+                                  "isort")))
+      (when (file-exists-p isort-bin)
+        (setq python-isort-command
+              isort-bin))))
 
   (add-hook 'python-mode-hook 'tabs-disable)
 #+END_SRC
