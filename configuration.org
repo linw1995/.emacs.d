@@ -32,7 +32,7 @@ Appending below codes into =.emacs= file to configure dired using =ls= without =
 ** Helper Functions
 
 #+BEGIN_SRC emacs-lisp
-  (defun my/get-color (name)
+  (defun linw1995/get-color (name)
     (if (require 'doom-themes nil t)
         (doom-color name)
       (symbol-name name)))
@@ -149,7 +149,7 @@ Plenty of codes are copied from [[https://dougie.io/emacs/indentation/][The Ulti
      ;; This will also show trailing characters as they are useful to spot.
     (setq whitespace-style '(face tabs tab-mark trailing))
     (custom-set-faces
-     `(whitespace-tab ((t (:foreground ,(my/get-color 'red))))))
+     `(whitespace-tab ((t (:foreground ,(linw1995/get-color 'red))))))
     (setq whitespace-display-mappings
           '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
     (global-whitespace-mode) ; Enable whitespace mode everywhere
@@ -232,13 +232,13 @@ and, the Emacs should parse escape sequence codes sent from iTerm and should emi
 See [[https://stackoverflow.com/a/40222318/7035932][Stackoverflow Answer]] for more details.
 
 #+BEGIN_SRC emacs-lisp
-  (defun my/global-map-and-set-key (key command &optional prefix suffix)
-     "`my/map-key' KEY then `global-set-key' KEY with COMMAND.
+  (defun linw1995/global-map-and-set-key (key command &optional prefix suffix)
+     "`linw1995/map-key' KEY then `global-set-key' KEY with COMMAND.
    PREFIX or SUFFIX can wrap the key when passing to `global-set-key'."
-     (my/map-key key)
+     (linw1995/map-key key)
      (global-set-key (kbd (concat prefix key suffix)) command))
 
-  (defun my/map-key (key)
+  (defun linw1995/map-key (key)
      "Map KEY from escape sequence \"\e[emacs-KEY\."
      (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 
@@ -247,8 +247,8 @@ See [[https://stackoverflow.com/a/40222318/7035932][Stackoverflow Answer]] for m
 *** Toggle Visibility of Shell Buffer
 
 #+BEGIN_SRC emacs-lisp
-  (my/global-map-and-set-key "C-\`" 'toggle-shell-splited-window)
-  (my/global-map-and-set-key "C-s-\`" 'toggle-shell)
+  (linw1995/global-map-and-set-key "C-\`" 'toggle-shell-splited-window)
+  (linw1995/global-map-and-set-key "C-s-\`" 'toggle-shell)
 #+END_SRC
 
 * Shell Configuration
@@ -863,7 +863,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :init
     (setq-default lsp-modeline-diagnostics-enable nil)
     (defvaralias 'flycheck-python-flake8-executable 'python-shell-interpreter)
-    (defun my/flycheck-mode-line-status-text (&optional status)
+    (defun linw1995/flycheck-mode-line-status-text (&optional status)
       "Get a text describing STATUS for use in the mode line.
   STATUS defaults to `flycheck-last-status-change' if omitted or
   nil."
@@ -877,11 +877,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
            ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
            (propertize (format "%s/%s/%s"
                                (propertize (int-to-string (or .error 0))
-                                           'face (list :foreground (my/get-color 'red)))
+                                           'face (list :foreground (linw1995/get-color 'red)))
                                (propertize (int-to-string (or .warning 0))
-                                           'face (list :foreground (my/get-color 'yellow)))
+                                           'face (list :foreground (linw1995/get-color 'yellow)))
                                (propertize (int-to-string (or .info 0))
-                                           'face (list :foreground (my/get-color 'green))))
+                                           'face (list :foreground (linw1995/get-color 'green))))
                        'help-echo "mouse-1: Click me"
                        'mouse-face 'mode-line-highlight
                        ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Clickable-Text.html
@@ -896,7 +896,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :custom
     (flycheck-disabled-checkers
      '(python-mypy python-pylint))
-    (flycheck-mode-line '(:eval (my/flycheck-mode-line-status-text)))
+    (flycheck-mode-line '(:eval (linw1995/flycheck-mode-line-status-text)))
     :config
     (global-flycheck-mode)
     :hook
@@ -911,27 +911,27 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 *** Manage python packages via Poetry
 
 #+BEGIN_SRC emacs-lisp
-  (defun my/poetry-get-python-executable ()
+  (defun linw1995/poetry-get-python-executable ()
     (require 'poetry)
     (let ((venv_dir (poetry-get-virtualenv)))
       (when venv_dir (concat (file-name-as-directory venv_dir)
                              "bin/python"))))
 
-  (defun my/get-python-shell-interpreter-of-project ()
+  (defun linw1995/get-python-shell-interpreter-of-project ()
     "get python shell interpreter of project via poetry"
     (require 'projectile)
-    (unless (boundp 'my/project-root-2-python-shell-interpreter)
-      (setq my/project-root-2-python-shell-interpreter
+    (unless (boundp 'linw1995/project-root-2-python-shell-interpreter)
+      (setq linw1995/project-root-2-python-shell-interpreter
             (make-hash-table :test 'equal)))
     (let ((project-root (projectile-project-root)))
       (unless (gethash project-root
-                       my/project-root-2-python-shell-interpreter)
+                       linw1995/project-root-2-python-shell-interpreter)
         ;; Configure the python shell interpreter
         (puthash project-root
-                 (my/poetry-get-python-executable)
-                 my/project-root-2-python-shell-interpreter))
+                 (linw1995/poetry-get-python-executable)
+                 linw1995/project-root-2-python-shell-interpreter))
       (gethash project-root
-               my/project-root-2-python-shell-interpreter)))
+               linw1995/project-root-2-python-shell-interpreter)))
 
   (use-package poetry
     :straight t
@@ -939,7 +939,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :hook ((python-mode
             . (lambda ()
                 (setq python-shell-interpreter
-                      (my/get-python-shell-interpreter-of-project))))))
+                      (linw1995/get-python-shell-interpreter-of-project))))))
 #+END_SRC
 
 *** MISC
@@ -949,7 +949,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :hook (python-mode . python-black-on-save-mode)
     :config
-    (when-let ((python-bin (my/get-python-shell-interpreter-of-project))
+    (when-let ((python-bin (linw1995/get-python-shell-interpreter-of-project))
                (black-bin (concat (file-name-directory (directory-file-name python-bin))
                                   "black")))
       (when (file-exists-p black-bin)
@@ -960,7 +960,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight (:type git :host github :repo "linw1995/emacs-python-isort")
     :hook (python-mode . python-isort-on-save-mode)
     :config
-    (when-let ((python-bin (my/get-python-shell-interpreter-of-project))
+    (when-let ((python-bin (linw1995/get-python-shell-interpreter-of-project))
                (isort-bin (concat (file-name-directory (directory-file-name python-bin))
                                   "isort")))
       (when (file-exists-p isort-bin)
@@ -1075,11 +1075,11 @@ Org-Roam
   (use-package org-roam
     :straight t
     :init
-    (defun my/org-roam-db-rebuild-cache ()
+    (defun linw1995/org-roam-db-rebuild-cache ()
       (interactive)
       (org-roam-db-clear)
       (org-roam-db-build-cache))
-    (defun my/org-roam-server ()
+    (defun linw1995/org-roam-server ()
       (interactive)
       (server-mode)
       (org-roam-server-mode)
