@@ -911,27 +911,39 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 *** Manage python packages via Poetry
 
 #+BEGIN_SRC emacs-lisp
-  (defun linw1995/poetry-get-python-executable ()
-    (require 'poetry)
-    (let ((venv_dir (poetry-get-virtualenv)))
-      (when venv_dir (concat (file-name-as-directory venv_dir)
-                             "bin/python"))))
+  (defun linw1995/ensure-project-root-2-venv-dir ()
+    (let ((variable-name 'linw1995/project-root-2-venv-dir))
+      (unless (boundp variable-name)
+        (set variable-name
+             (make-hash-table :test 'equal)))))
 
-  (defun linw1995/get-python-shell-interpreter-of-project ()
-    "get python shell interpreter of project via poetry"
+  (defun linw1995/poetry-get-venv (&optional dir)
+    (linw1995/ensure-project-root-2-venv-dir)
     (require 'projectile)
-    (unless (boundp 'linw1995/project-root-2-python-shell-interpreter)
-      (setq linw1995/project-root-2-python-shell-interpreter
-            (make-hash-table :test 'equal)))
-    (let ((project-root (projectile-project-root)))
-      (unless (gethash project-root
-                       linw1995/project-root-2-python-shell-interpreter)
-        ;; Configure the python shell interpreter
-        (puthash project-root
-                 (linw1995/poetry-get-python-executable)
-                 linw1995/project-root-2-python-shell-interpreter))
-      (gethash project-root
-               linw1995/project-root-2-python-shell-interpreter)))
+    (when-let ((project-root (projectile-project-root dir))
+               (root2venv-dir linw1995/project-root-2-venv-dir))
+      (unless (gethash project-root root2venv-dir)
+        (let ((cwd default-directory)
+              (dir (or dir default-directory)))
+          (require 'poetry)
+          (unless (equal dir cwd)
+            (cd dir))
+          (puthash project-root
+                   (poetry-get-virtualenv)
+                   root2venv-dir)
+          (unless (equal dir cwd)
+            (cd cwd))))
+      (gethash project-root root2venv-dir)))
+
+  (defun linw1995/poetry-venv-get-executable (name &optional dir)
+    (when-let ((venv-dir (linw1995/poetry-get-venv dir))
+               (bin-dir (expand-file-name "bin" venv-dir))
+               (bin-path (expand-file-name name bin-dir)))
+      (when (file-exists-p bin-path)
+        bin-path)))
+
+  (defun linw1995/poetry-venv-get-python-executable (&optional dir)
+    (linw1995/poetry-venv-get-executable "python" dir))
 
   (use-package poetry
     :straight t
@@ -939,7 +951,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :hook ((python-mode
             . (lambda ()
                 (setq python-shell-interpreter
-                      (linw1995/get-python-shell-interpreter-of-project))))))
+                      (linw1995/poetry-venv-get-python-executable))))))
 #+END_SRC
 
 *** MISC
@@ -949,23 +961,17 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :hook (python-mode . python-black-on-save-mode)
     :config
-    (when-let ((python-bin (linw1995/get-python-shell-interpreter-of-project))
-               (black-bin (concat (file-name-directory (directory-file-name python-bin))
-                                  "black")))
-      (when (file-exists-p black-bin)
-        (setq python-black-command
-              black-bin))))
+    (setq python-black-command
+          (or (linw1995/poetry-venv-get-executable "black")
+              python-black-command)))
 
   (use-package python-isort
     :straight (:type git :host github :repo "linw1995/emacs-python-isort")
     :hook (python-mode . python-isort-on-save-mode)
     :config
-    (when-let ((python-bin (linw1995/get-python-shell-interpreter-of-project))
-               (isort-bin (concat (file-name-directory (directory-file-name python-bin))
-                                  "isort")))
-      (when (file-exists-p isort-bin)
-        (setq python-isort-command
-              isort-bin))))
+    (setq python-isort-command
+          (or (linw1995/poetry-venv-get-executable "isort")
+              python-isort-command)))
 
   (add-hook 'python-mode-hook 'tabs-disable)
 #+END_SRC
