@@ -846,6 +846,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
     :hook ((python-mode
             . (lambda ()
+                (setq python-shell-interpreter
+                      (linw1995/poetry-venv-get-python-executable))
                 (require 'lsp-python-ms)
                 (lsp-deferred)))))
 #+END_SRC
@@ -858,7 +860,6 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :ensure t
     :init
     (setq-default lsp-modeline-diagnostics-enable nil)
-    (defvaralias 'flycheck-python-flake8-executable 'python-shell-interpreter)
     (defun linw1995/flycheck-mode-line-jumper (str keybind)
       ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
       (propertize str
@@ -899,17 +900,23 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
                      (switch-to-buffer "*Flycheck checkers*")))))))
     :custom
     (flycheck-disabled-checkers
-     '(python-mypy python-pylint))
+     '(python-pylint))
     (flycheck-mode-line '(:eval (linw1995/flycheck-mode-line-status-text)))
-    :config
     (global-flycheck-mode)
     :hook
-    ((lsp-diagnostics-mode
+    ((python-mode
       . (lambda ()
-          (require 'flycheck)
-          ;; lsp checker being defined after diagnostics mode loaded.
-          (flycheck-add-next-checker 'lsp
-                                     'python-flake8)))))
+          (setq flycheck-python-mypy-executable
+                (linw1995/poetry-venv-get-executable "mypy"))
+          ;; https://www.flycheck.org/en/latest/languages.html#python
+          (setq flycheck-python-flake8-executable
+                (linw1995/poetry-venv-get-python-executable))
+          (add-hook 'lsp-diagnostics-mode-hook
+                    (lambda ()
+                      (require 'flycheck)
+                      ;; lsp checker being defined after diagnostics mode loaded.
+                      (flycheck-add-next-checker 'lsp
+                                                 'python-flake8)))))))
 #+END_SRC
 
 *** Manage python packages via Poetry
