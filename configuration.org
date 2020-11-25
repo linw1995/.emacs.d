@@ -415,6 +415,7 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
                      (or (string-prefix-p "magit" bname)
                          (string-equal "*ansi-term*" bname)
                          (string-prefix-p "*" bname)
+                         (member (buffer-file-name b) org-agenda-files)
                          ;; and more
                          )))))
 #+END_SRC
