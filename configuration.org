@@ -396,28 +396,44 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package persp-mode
     :straight t
+    :init
+    (setq linw1995/persp-loading-reporter nil)
+    (defun linw1995/persp-ignore-buffer (b)
+      "Ignore buffers."
+      (let ((bname (file-name-nondirectory (buffer-name b))))
+        (or (string-prefix-p "magit" bname)
+            (string-equal "*ansi-term*" bname)
+            (string-prefix-p "*" bname)
+            (member (buffer-file-name b) org-agenda-files)
+            ;; and more
+            )))
+    (defun linw1995/persp-setup ()
+      (require 'projectile)
+      (when-let ((project-root (projectile-project-root))
+                 (persp-confs-dir (expand-file-name ".persp-confs/" project-root)))
+        (when (file-directory-p persp-confs-dir)
+          (setq linw1995/persp-loading-reporter
+                (make-progress-reporter "Persp-mode restoring persp-confs...")))
+        (setq-default persp-save-dir persp-confs-dir)
+        (persp-mode 1)))
+    (defun linw1995/persp-after-load-state (file phash persp-names)
+      (when linw1995/persp-loading-reporter
+        (progress-reporter-done linw1995/persp-loading-reporter)
+        (setq linw1995/persp-loading-reporter nil)
+        (delete 'linw1995/persp-after-load-state
+                persp-after-load-state-functions)))
     :custom
     (persp-keymap-prefix (kbd "C-c C-p"))
+    (persp-add-buffer-on-after-change-major-mode t)
     :hook
     (window-setup
-     . (lambda ()
-         (when-let (project-root (projectile-project-root))
-           (setq-default persp-save-dir
-                         (expand-file-name ".persp-confs/" project-root))
-           (persp-mode 1))))
+     . linw1995/persp-setup)
     :config
-    (setq wg-morph-on nil) ;; switch off animation
     (setq persp-autokill-buffer-on-remove 'kill-weak)
     (add-to-list 'persp-filter-save-buffers-functions
-                 (lambda (b)
-                   "Ignore temporary buffers."
-                   (let ((bname (file-name-nondirectory (buffer-name b))))
-                     (or (string-prefix-p "magit" bname)
-                         (string-equal "*ansi-term*" bname)
-                         (string-prefix-p "*" bname)
-                         (member (buffer-file-name b) org-agenda-files)
-                         ;; and more
-                         )))))
+                 'linw1995/persp-ignore-buffer)
+    (add-to-list 'persp-after-load-state-functions
+                 'linw1995/persp-after-load-state))
 #+END_SRC
 
 ** Enables you to customise the mode names displayed in the mode line.
