@@ -860,6 +860,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :ensure t
     :init
     (setq-default lsp-modeline-diagnostics-enable nil)
+    (defun linw1995/flycheck-disable-checker (checker)
+      (add-to-list 'flycheck-disabled-checkers checker))
     (defun linw1995/flycheck-mode-line-jumper (str keybind)
       ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html#Special-Properties
       (propertize str
@@ -906,8 +908,9 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :hook
     ((python-mode
       . (lambda ()
-          (setq flycheck-python-mypy-executable
-                (linw1995/poetry-venv-get-executable "mypy"))
+          (if-let ((mypy-bin (linw1995/poetry-venv-get-executable "mypy")))
+              (setq flycheck-python-mypy-executable mypy-bin)
+            (linw1995/flycheck-disable-checker 'python-mypy))
           ;; https://www.flycheck.org/en/latest/languages.html#python
           (setq flycheck-python-flake8-executable
                 (linw1995/poetry-venv-get-python-executable))
