@@ -860,6 +860,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 
   (use-package lsp-python-ms
     :straight (:host github :repo "emacs-lsp/lsp-python-ms")
+    :custom
+    (lsp-python-ms-auto-install-server t)
     :init
     (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
     :hook ((python-mode
