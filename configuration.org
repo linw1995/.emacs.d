@@ -970,7 +970,9 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
           (unless (equal dir cwd)
             (cd dir))
           (puthash project-root
-                   (poetry-get-virtualenv)
+                   (condition-case nil
+                       (poetry-get-virtualenv)
+                     (error nil))
                    root2venv-dir)
           (unless (equal dir cwd)
             (cd cwd))))
