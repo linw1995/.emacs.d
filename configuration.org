@@ -1222,6 +1222,16 @@ Need to install [[https://github.com/golang/tools/tree/master/gopls][gopls]] pac
     ((go-mode . lsp-deferred)))
 #+end_src
 
+** Rust
+
+Need to install [[https://github.com/rust-lang/rls][rls]] package.
+
+#+begin_src emacs-lisp
+  (use-package rustic
+    :straight t
+    :hook ((rustic-mode . lsp-deferred)))
+#+end_src
+
 ** MISC
 
 #+BEGIN_SRC emacs-lisp
