@@ -1109,6 +1109,8 @@ See also [[Counsel Configuration]].
 
 #+END_SRC
 
+*** Export HTML with syntax highlighting
+
 Use htmlize to support exporting code with syntax highlighting.
 
 #+BEGIN_SRC emacs-lisp
@@ -1116,7 +1118,7 @@ Use htmlize to support exporting code with syntax highlighting.
     :straight t)
 #+END_SRC
 
-Org-Roam
+*** Org-Roam
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
