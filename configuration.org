@@ -1020,6 +1020,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 #+END_SRC
 
 *** Q&A
+
 **** How to set path of the Python executable explicitly?
 
 Set the variable ~lsp-python-ms-python-executable~ before the =lsp-mode= being loaded.
@@ -1050,7 +1051,7 @@ It will check and configure with venv created by poetry.
     . ((eval
         . (progn (when (require 'poetry nil t)
                    (setq python-shell-interpreter
-                         (poetry-get-python-executable))))))))
+                         (linw1995/poetry-venv-get-python-executable))))))))
 #+END_SRC
 
 I add a hooking to set it by default via =poetry=. [[*Manage python packages via Poetry]]
