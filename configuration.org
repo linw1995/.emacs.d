@@ -673,7 +673,7 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
 
 * Project Managing Configuration
 
-Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
+** [[https://docs.projectile.mx/projectile/index.html][projectile]]
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -686,6 +686,13 @@ Use [[https://docs.projectile.mx/projectile/index.html][projectile]] package.
     (setq projectile-switch-project-action 'neotree-projectile-action)
     (setq projectile-completion-system 'ivy))
 #+END_SRC
+
+** ripgrep
+
+#+begin_src emacs-lisp
+  (use-package ripgrep
+    :straight t)
+#+end_src
 
 * Productivity Tools
 ** Completion Tools
