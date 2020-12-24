@@ -596,6 +596,11 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :hook (lsp-mode . lsp-ui-mode)
     :config
     (setq lsp-ui-doc-position #'at-point))
+
+  (use-package lsp-treemacs
+    :straight t
+    :after all-the-icons
+    :hook (lsp-mode . lsp-treemacs-sync-mode))
 #+end_src
 
 ** Python
