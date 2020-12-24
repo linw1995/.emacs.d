@@ -1284,3 +1284,13 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
                        "%* %m"
                        (vc-mode vc-mode)))))))
 #+END_SRC
+
+** TODO highlighting
+
+#+begin_src emacs-lisp
+  (use-package hl-todo
+    :straight t
+    :demand
+    :config
+    (global-hl-todo-mode))
+#+end_src
