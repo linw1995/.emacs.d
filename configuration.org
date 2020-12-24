@@ -588,7 +588,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :straight t
     :commands (lsp lsp-deferred)
     :custom
-    (lsp-enable-snippet t))
+    (lsp-enable-snippet t)
+    (lsp-headerline-breadcrumb-enable nil))
 
   (use-package lsp-ui
     :straight t
