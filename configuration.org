@@ -178,6 +178,7 @@ No Tabs by default.
   (use-package wrap-region
     :straight (:type git :host github repo "rejeep/wrap-region.el")
     :delight
+    :demand
     :hook ((python-mode . wrap-region-mode)))
 #+END_SRC
 
@@ -629,7 +630,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     (lsp-python-ms-cache "Library")
     :init
     (defvaralias 'lsp-python-ms-python-executable 'python-shell-interpreter)
-    :after (global-flycheck-mode)
+    :after (flycheck)
     :hook ((python-mode
             . (lambda ()
                 (setq python-shell-interpreter
@@ -650,6 +651,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package flycheck
     :straight t
     :ensure t
+    :demand
     :init
     (setq-default lsp-modeline-diagnostics-enable nil)
     (defun linw1995/flycheck-disable-checker (checker)
