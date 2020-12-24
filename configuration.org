@@ -833,11 +833,11 @@ See also [[Counsel Configuration]].
                    '("w" "Web Collections" entry
                      (file+headline "~/Sync/org/inbox.org" "Web")
                      "* %U %:annotation\n\n%:initial\n\n%?")))
-    (org-capture-configure)
-    :config
     (defun org-goto-configuration ()
       (setq org-goto-interface 'outline-path-completion)
       (setq org-outline-path-complete-in-steps nil))
+    :config
+    (org-capture-configure)
     (org-goto-configuration)
     (setq org-adapt-indentation nil)
     (setq org-catch-invisible-edits 'smart))
