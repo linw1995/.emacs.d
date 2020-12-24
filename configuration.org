@@ -60,6 +60,17 @@ Integration with [[https://github.com/jwiegley/use-package][use-package]].
   (setq-default use-package-always-defer t)
 #+END_SRC
 
+* Appearances (Pre)
+
+** Icons
+
+must be loaded before =lsp-treemacs=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :straight t)
+#+END_SRC
+
 * Profiler
 
 #+BEGIN_SRC emacs-lisp
@@ -390,287 +401,6 @@ Create =toggle-shell= command to toggle visibility of shell buffer.
           (t (toggle-shell--switch-to-shell-splited-window))))
 #+END_SRC
 
-* Appearance Configuration
-** Frames Management
-
-#+BEGIN_SRC emacs-lisp
-  (use-package persp-mode
-    :straight t
-    :init
-    (setq linw1995/persp-loading-reporter nil)
-    (defun linw1995/persp-ignore-buffer (b)
-      "Ignore buffers."
-      (let ((bname (file-name-nondirectory (buffer-name b))))
-        (or (string-prefix-p "magit" bname)
-            (string-equal "*ansi-term*" bname)
-            (string-prefix-p "*" bname)
-            (member (buffer-file-name b) org-agenda-files)
-            ;; and more
-            )))
-    (defun linw1995/persp-setup ()
-      (require 'projectile)
-      (when-let ((project-root (projectile-project-root))
-                 (persp-confs-dir (expand-file-name ".persp-confs/" project-root)))
-        (when (file-directory-p persp-confs-dir)
-          (setq linw1995/persp-loading-reporter
-                (make-progress-reporter "Persp-mode restoring persp-confs...")))
-        (setq-default persp-save-dir persp-confs-dir)
-        (persp-mode 1)))
-    (defun linw1995/persp-after-load-state (file phash persp-names)
-      (when linw1995/persp-loading-reporter
-        (progress-reporter-done linw1995/persp-loading-reporter)
-        (setq linw1995/persp-loading-reporter nil)
-        (delete 'linw1995/persp-after-load-state
-                persp-after-load-state-functions)))
-    :custom
-    (persp-keymap-prefix (kbd "C-c C-p"))
-    (persp-add-buffer-on-after-change-major-mode t)
-    :hook
-    (window-setup
-     . linw1995/persp-setup)
-    :config
-    (setq persp-autokill-buffer-on-remove 'kill-weak)
-    (add-to-list 'persp-filter-save-buffers-functions
-                 'linw1995/persp-ignore-buffer)
-    (add-to-list 'persp-after-load-state-functions
-                 'linw1995/persp-after-load-state))
-#+END_SRC
-
-** Enables you to customise the mode names displayed in the mode line.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package delight
-    :straight t
-    :hook
-    ('after-init
-     . (lambda ()
-         (require 'delight)
-         (delight '((eldoc-mode nil t)
-                    (auto-fill-function " AF")
-                    (visual-line-mode nil t)
-                    (auto-revert-mode nil t)
-                    (tree-sitter-mode nil t)
-                    (page-break-lines-mode nil t)
-                    (wrap-region-mode nil t)
-                    (wakatime-mode nil t)
-                    (whitespace-mode nil t))))))
-#+END_SRC
-
-** Theme Configuration
-
-Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
-#+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
-    :straight t
-    :demand
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-solarized-dark t)
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-config)
-    ;; Enable custom neotree theme (all-the-icons must be installed!)
-    (doom-themes-neotree-config)
-    ;; or for treemacs users
-    (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-    (doom-themes-treemacs-config)
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config))
-#+END_SRC
-
-** GUI Configuration
-*** Common
-Disable dialog box.
-#+BEGIN_SRC emacs-lisp
-  (setq use-file-dialog        nil
-        use-dialog-box         nil)
-#+END_SRC
-
-Hide toolbar.
-#+BEGIN_SRC emacs-lisp
-  (when (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1))
-#+END_SRC
-
-Hide scrollbar.
-#+BEGIN_SRC emacs-lisp
-  (when (fboundp 'set-scroll-bar-mode)
-    (set-scroll-bar-mode nil))
-#+END_SRC
-
-Startup Window Size.
-#+BEGIN_SRC emacs-lisp
-  (when window-system
-    (set-frame-size (selected-frame)
-                    160
-                    50))
-#+END_SRC
-
-*** MacOS
-
-Make the title bar and toolbar to be transparent.
-#+BEGIN_SRC emacs-lisp
-  (when (eq system-type 'darwin)
-    (add-to-list 'default-frame-alist
-                 '(ns-transparent-titlebar . t))
-    (add-to-list 'default-frame-alist
-                 '(ns-appearance . dark)))
-#+END_SRC
-
-Change the opacity of the frame.
-#+BEGIN_SRC emacs-lisp
-  (when (eq system-type 'darwin)
-    (add-to-list 'default-frame-alist
-                 '(alpha . (100 . 100))))
-#+END_SRC
-
-** Dashboard
-
-#+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :straight t
-    :demand
-    :custom
-    (dashboard-items '((recents  . 5)
-                       (bookmarks . 5)
-                       (projects . 5)
-                       (agenda . 5)))
-    :config
-    (dashboard-setup-startup-hook))
-#+END_SRC
-
-Hide the original startup screen while opening file.
-
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t)
-#+END_SRC
-
-** Icons
-
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons
-    :straight t)
-#+END_SRC
-
-** Directory Tree View
-
-Use [[https://github.com/jaypei/emacs-neotree][neotree]] package.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package neotree
-    :straight t
-    :bind ("<f8>" . neotree-toggle))
-#+END_SRC
-
-** Rainbow Delimiters
-
-Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to highlights delimiters such as parentheses, brackets or braces according to their depth.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :straight t
-    :delight
-    :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
-           (racket-mode . rainbow-delimiters-mode)
-           (racket-repl-mode . rainbow-delimiters-mode)))
-#+END_SRC
-
-** Font
-
-#+BEGIN_SRC emacs-lisp
-  ;;; base on https://gist.github.com/Superbil/7113937
-  ;;; base on https://gist.github.com/coldnew/7398835
-  (defvar emacs-english-font nil
-    "The font name of English.")
-
-  (defvar emacs-cjk-font nil
-    "The font name for CJK.")
-
-  (defvar emacs-font-size-pair nil
-    "Default font size pair for (english . chinese)")
-
-  (defvar emacs-font-size-pair-list nil
-    "This list is used to store matching (englis . chinese) font-size.")
-
-  (defun font-exist-p (fontname)
-    "test if this font is exist or not."
-    (if (or (not fontname) (string= fontname ""))
-        nil
-      (if (not (x-list-fonts fontname))
-          nil t)))
-
-  (defun set-font (english chinese size-pair)
-    "Setup emacs English and Chinese font on x window-system."
-    (if (font-exist-p english)
-        (set-frame-font (format "%s:pixelsize=%d" english (car size-pair)) t))
-
-    (if (font-exist-p chinese)
-        (dolist (charset '(kana han symbol cjk-misc bopomofo))
-          (set-fontset-font (frame-parameter nil 'font) charset
-                            (font-spec :family chinese :size (cdr size-pair))))))
-
-  (defun emacs-step-font-size (step)
-    "Increase/Decrease emacs's font size."
-    (let ((scale-steps emacs-font-size-pair-list))
-      (if (< step 0) (setq scale-steps (reverse scale-steps)))
-      (setq emacs-font-size-pair
-            (or (cadr (member emacs-font-size-pair scale-steps))
-                emacs-font-size-pair))
-      (when emacs-font-size-pair
-        (message "emacs font size set to %.1f" (car emacs-font-size-pair))
-        (set-font emacs-english-font emacs-cjk-font emacs-font-size-pair))))
-
-  (defun increase-emacs-font-size ()
-    "Decrease emacs's font-size acording emacs-font-size-pair-list."
-    (interactive) (emacs-step-font-size 1))
-
-  (defun decrease-emacs-font-size ()
-    "Increase emacs's font-size acording emacs-font-size-pair-list."
-    (interactive) (emacs-step-font-size -1))
-
-  (setq list-faces-sample-text
-        (concat
-         "ABCDEFTHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz\n"
-         "11223344556677889900       壹貳參肆伍陸柒捌玖零"))
-
-  (when window-system
-    ;; setup change size font, base on emacs-font-size-pair-list
-    (global-set-key (kbd "C-M-=") 'increase-emacs-font-size)
-    (global-set-key (kbd "C-M--") 'decrease-emacs-font-size)
-
-    ;; setup default english font and cjk font
-    (setq emacs-english-font "Hack nerd Font Mono")
-    (setq emacs-cjk-font "Noto Sans Mono CJK SC")
-    (setq emacs-font-size-pair '(13 . 13))
-    (setq emacs-font-size-pair-list '((13 . 13) (14 . 14) (15 . 15)))
-    ;; Setup font size based on emacs-font-size-pair
-    (set-font emacs-english-font emacs-cjk-font emacs-font-size-pair))
-#+END_SRC
-
-** Modeline
-
-#+BEGIN_SRC emacs-lisp
-  (defun +simple-mode-line-render (left right)
-    "Return a string of `window-width' length containing LEFT, and RIGHT
-   aligned respectively."
-    (let* ((available-width (- (window-width) (length left) 2)))
-      (format (format " %%s %%%ds " available-width) left right)))
-
-  (setq-default mode-line-format
-                '((:eval
-                   (+simple-mode-line-render
-                    ;; left
-                    (format-mode-line
-                     '(" %l:%C "
-                       (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))))
-                    ;; right
-                    (format-mode-line
-                     '((:eval (when (functionp #'+smart-file-name) (+smart-file-name)))
-                       "%* %m"
-                       (vc-mode vc-mode)))))))
-#+END_SRC
-
 * Project Managing Configuration
 
 ** [[https://docs.projectile.mx/projectile/index.html][projectile]]
@@ -696,7 +426,6 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
 
 * Productivity Tools
 ** Completion Tools
-
 *** Replace isearch with swiper
 
 Use [[https://github.com/abo-abo/swiper#ivy][Ivy]] pacakge for minibuffer completion. <<Counsel Configuration>>
@@ -1252,4 +981,303 @@ Need to install [[https://github.com/rust-lang/rls][rls]] package.
     :hook
     ((org-mode . valign-mode)
      (markdown-mode . valign-mode)))
+#+END_SRC
+
+* Appearance Configuration
+** Frames Management
+
+#+BEGIN_SRC emacs-lisp
+  (use-package persp-mode
+    :straight t
+    :init
+    (setq linw1995/persp-loading-reporter nil)
+    (defun linw1995/persp-ignore-buffer (b)
+      "Ignore buffers."
+      (let ((bname (file-name-nondirectory (buffer-name b))))
+        (or (string-prefix-p "magit" bname)
+            (string-equal "*ansi-term*" bname)
+            (string-prefix-p "*" bname)
+            (member (buffer-file-name b) org-agenda-files)
+            ;; and more
+            )))
+    (defun linw1995/persp-setup ()
+      (require 'projectile)
+      (when-let ((project-root (projectile-project-root))
+                 (persp-confs-dir (expand-file-name ".persp-confs/" project-root)))
+        (when (file-directory-p persp-confs-dir)
+          (setq linw1995/persp-loading-reporter
+                (make-progress-reporter "Persp-mode restoring persp-confs...")))
+        (setq-default persp-save-dir persp-confs-dir)
+        (persp-mode 1)))
+    (defun linw1995/persp-after-load-state (file phash persp-names)
+      (when linw1995/persp-loading-reporter
+        (progress-reporter-done linw1995/persp-loading-reporter)
+        (setq linw1995/persp-loading-reporter nil)
+        (delete 'linw1995/persp-after-load-state
+                persp-after-load-state-functions)))
+    :custom
+    (persp-keymap-prefix (kbd "C-c C-p"))
+    (persp-add-buffer-on-after-change-major-mode t)
+    :hook
+    (window-setup
+     . linw1995/persp-setup)
+    :config
+    (setq persp-autokill-buffer-on-remove 'kill-weak)
+    (add-to-list 'persp-filter-save-buffers-functions
+                 'linw1995/persp-ignore-buffer)
+    (add-to-list 'persp-after-load-state-functions
+                 'linw1995/persp-after-load-state))
+#+END_SRC
+
+** Enables you to customise the mode names displayed in the mode line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package delight
+    :straight t
+    :hook
+    ('after-init
+     . (lambda ()
+         (require 'delight)
+         (delight '((eldoc-mode nil t)
+                    (auto-fill-function " AF")
+                    (visual-line-mode nil t)
+                    (auto-revert-mode nil t)
+                    (tree-sitter-mode nil t)
+                    (page-break-lines-mode nil t)
+                    (wrap-region-mode nil t)
+                    (wakatime-mode nil t)
+                    (whitespace-mode nil t))))))
+#+END_SRC
+
+** Theme Configuration
+
+Use [[https://github.com/hlissner/emacs-doom-themes][DOOM Themes]].
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :straight t
+    :demand
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-solarized-dark t)
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (doom-themes-neotree-config)
+    ;; or for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+#+END_SRC
+
+** Head line
+
+#+begin_src emacs-lisp
+  (use-package smex
+    :straight t)
+
+  (use-package nano-faces
+    :straight (:type git :host github :repo "rougier/nano-emacs" :file "nano-faces.el")
+    :demand
+    :config
+    (nano-faces)
+    ;; Nano counsel configuration (optional)
+    (require 'nano-counsel)
+    ;; Nano header & mode lines (optional)
+    (require 'nano-modeline)
+    (remove-hook 'window-configuration-change-hook 'nano-modeline-update-windows)
+    ;; ;; Nano default settings (optional)
+    ;; (require 'nano-defaults)
+    ;; ;; Nano session saving (optional)
+    ;; (require 'nano-session)
+    ;; ;; Help (optional)
+    ;; (require 'nano-help)
+    )
+#+end_src
+
+** GUI Configuration
+*** Common
+Disable dialog box.
+#+BEGIN_SRC emacs-lisp
+  (setq use-file-dialog        nil
+        use-dialog-box         nil)
+#+END_SRC
+
+Hide toolbar.
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+#+END_SRC
+
+Hide scrollbar.
+#+BEGIN_SRC emacs-lisp
+  (when (fboundp 'set-scroll-bar-mode)
+    (set-scroll-bar-mode nil))
+#+END_SRC
+
+Startup Window Size.
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (set-frame-size (selected-frame)
+                    160
+                    50))
+#+END_SRC
+
+*** MacOS
+
+Make the title bar and toolbar to be transparent.
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist
+                 '(ns-transparent-titlebar . t))
+    (add-to-list 'default-frame-alist
+                 '(ns-appearance . dark)))
+#+END_SRC
+
+Change the opacity of the frame.
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist
+                 '(alpha . (100 . 100))))
+#+END_SRC
+
+** Dashboard
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :straight t
+    :demand
+    :custom
+    (dashboard-items '((recents  . 5)
+                       (bookmarks . 5)
+                       (projects . 5)
+                       (agenda . 5)))
+    :config
+    (dashboard-setup-startup-hook))
+#+END_SRC
+
+Hide the original startup screen while opening file.
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-screen t)
+#+END_SRC
+
+** Directory Tree View
+
+Use [[https://github.com/jaypei/emacs-neotree][neotree]] package.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :straight t
+    :bind ("<f8>" . neotree-toggle))
+#+END_SRC
+
+** Rainbow Delimiters
+
+Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to highlights delimiters such as parentheses, brackets or braces according to their depth.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :straight t
+    :delight
+    :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
+           (racket-mode . rainbow-delimiters-mode)
+           (racket-repl-mode . rainbow-delimiters-mode)))
+#+END_SRC
+
+** Font
+
+#+BEGIN_SRC emacs-lisp
+  ;;; base on https://gist.github.com/Superbil/7113937
+  ;;; base on https://gist.github.com/coldnew/7398835
+  (defvar emacs-english-font nil
+    "The font name of English.")
+
+  (defvar emacs-cjk-font nil
+    "The font name for CJK.")
+
+  (defvar emacs-font-size-pair nil
+    "Default font size pair for (english . chinese)")
+
+  (defvar emacs-font-size-pair-list nil
+    "This list is used to store matching (englis . chinese) font-size.")
+
+  (defun font-exist-p (fontname)
+    "test if this font is exist or not."
+    (if (or (not fontname) (string= fontname ""))
+        nil
+      (if (not (x-list-fonts fontname))
+          nil t)))
+
+  (defun set-font (english chinese size-pair)
+    "Setup emacs English and Chinese font on x window-system."
+    (if (font-exist-p english)
+        (set-frame-font (format "%s:pixelsize=%d" english (car size-pair)) t))
+
+    (if (font-exist-p chinese)
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font) charset
+                            (font-spec :family chinese :size (cdr size-pair))))))
+
+  (defun emacs-step-font-size (step)
+    "Increase/Decrease emacs's font size."
+    (let ((scale-steps emacs-font-size-pair-list))
+      (if (< step 0) (setq scale-steps (reverse scale-steps)))
+      (setq emacs-font-size-pair
+            (or (cadr (member emacs-font-size-pair scale-steps))
+                emacs-font-size-pair))
+      (when emacs-font-size-pair
+        (message "emacs font size set to %.1f" (car emacs-font-size-pair))
+        (set-font emacs-english-font emacs-cjk-font emacs-font-size-pair))))
+
+  (defun increase-emacs-font-size ()
+    "Decrease emacs's font-size acording emacs-font-size-pair-list."
+    (interactive) (emacs-step-font-size 1))
+
+  (defun decrease-emacs-font-size ()
+    "Increase emacs's font-size acording emacs-font-size-pair-list."
+    (interactive) (emacs-step-font-size -1))
+
+  (setq list-faces-sample-text
+        (concat
+         "ABCDEFTHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz\n"
+         "11223344556677889900       壹貳參肆伍陸柒捌玖零"))
+
+  (when window-system
+    ;; setup change size font, base on emacs-font-size-pair-list
+    (global-set-key (kbd "C-M-=") 'increase-emacs-font-size)
+    (global-set-key (kbd "C-M--") 'decrease-emacs-font-size)
+
+    ;; setup default english font and cjk font
+    (setq emacs-english-font "Hack nerd Font Mono")
+    (setq emacs-cjk-font "Noto Sans Mono CJK SC")
+    (setq emacs-font-size-pair '(13 . 13))
+    (setq emacs-font-size-pair-list '((13 . 13) (14 . 14) (15 . 15)))
+    ;; Setup font size based on emacs-font-size-pair
+    (set-font emacs-english-font emacs-cjk-font emacs-font-size-pair))
+#+END_SRC
+
+** Modeline
+
+#+BEGIN_SRC emacs-lisp
+  (defun +simple-mode-line-render (left right)
+    "Return a string of `window-width' length containing LEFT, and RIGHT
+   aligned respectively."
+    (let* ((available-width (- (window-width) (length left) 2)))
+      (format (format " %%s %%%ds " available-width) left right)))
+
+  (setq-default mode-line-format
+                '((:eval
+                   (+simple-mode-line-render
+                    ;; left
+                    (format-mode-line
+                     '(" %l:%C "
+                       (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))))
+                    ;; right
+                    (format-mode-line
+                     '((:eval (when (functionp #'+smart-file-name) (+smart-file-name)))
+                       "%* %m"
+                       (vc-mode vc-mode)))))))
 #+END_SRC
