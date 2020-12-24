@@ -836,6 +836,15 @@ See also [[Counsel Configuration]].
     (defun org-goto-configuration ()
       (setq org-goto-interface 'outline-path-completion)
       (setq org-outline-path-complete-in-steps nil))
+    (defun help/org-babel-after-execute-hook ()
+      "HELP settings for the `org-babel-after-execute-hook'.
+       This does not interfere with exports.
+       Attribution: URL
+       `https://lists.gnu.org/archive/html/emacs-orgmode/2015-01/msg00534.html'"
+      (interactive)
+      (org-redisplay-inline-images))
+    :hook
+    ((org-babel-after-execute . help/org-babel-after-execute-hook))
     :config
     (org-capture-configure)
     (org-goto-configuration)
