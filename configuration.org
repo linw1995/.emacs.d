@@ -226,6 +226,19 @@ No Tabs by default.
     :demand)
 #+END_SRC
 
+*** Evil
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :straight t
+    :demand
+    :custom
+    (evil-want-fine-undo 'fine)
+    :config
+    (add-to-list 'evil-emacs-state-modes 'dashboard-mode)
+    (evil-mode 1))
+#+end_src
+
 * Key Binding Configuration
 
 *** iTerm Integration
