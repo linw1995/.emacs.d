@@ -850,6 +850,14 @@ See also [[Counsel Configuration]].
        `https://lists.gnu.org/archive/html/emacs-orgmode/2015-01/msg00534.html'"
       (interactive)
       (org-redisplay-inline-images))
+    (defun org-latex-export-configuration ()
+      (add-to-list 'org-latex-packages-alist '("" "listingsutf8"))
+      (add-to-list 'org-latex-packages-alist '("" "minted"))
+      (setq org-latex-listings 'minted)
+      (setq org-latex-pdf-process
+            '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
     :custom
     (org-todo-keywords
      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
@@ -858,8 +866,13 @@ See also [[Counsel Configuration]].
     :config
     (org-capture-configure)
     (org-goto-configuration)
+    (org-latex-export-configuration)
     (setq org-adapt-indentation nil)
-    (setq org-catch-invisible-edits 'smart))
+    (setq org-catch-invisible-edits 'smart)
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 '((ditaa . t)
+                                   (C . t)
+                                   (python . t))))
 
   (use-package ob-racket
     :straight
@@ -868,6 +881,11 @@ See also [[Counsel Configuration]].
     (org-babel-do-load-languages 'org-babel-load-languages
                                  '((racket . t))))
 
+  (use-package ox-gfm
+    :straight t
+    :hook
+    (org-mode . (lambda ()
+                  (require 'ox-gfm))))
 #+END_SRC
 
 *** Export HTML with syntax highlighting
