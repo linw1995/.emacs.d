@@ -843,6 +843,9 @@ See also [[Counsel Configuration]].
        `https://lists.gnu.org/archive/html/emacs-orgmode/2015-01/msg00534.html'"
       (interactive)
       (org-redisplay-inline-images))
+    :custom
+    (org-todo-keywords
+     '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
     :hook
     ((org-babel-after-execute . help/org-babel-after-execute-hook))
     :config
