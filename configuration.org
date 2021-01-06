@@ -260,7 +260,6 @@ See [[https://stackoverflow.com/a/40222318/7035932][Stackoverflow Answer]] for m
   (defun linw1995/map-key (key)
      "Map KEY from escape sequence \"\e[emacs-KEY\."
      (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
-
 #+END_SRC
 
 *** Toggle Visibility of Shell Buffer
@@ -1225,7 +1224,7 @@ Use [[https://github.com/jaypei/emacs-neotree][neotree]] package.
 
 #+BEGIN_SRC emacs-lisp
   (use-package neotree
-    :straight t
+    :straight (:branch "dev")
     :bind ("<f8>" . neotree-toggle))
 #+END_SRC
 
