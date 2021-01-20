@@ -944,6 +944,23 @@ Use htmlize to support exporting code with syntax highlighting.
     :straight t)
 #+END_SRC
 
+*** Export HTML with theme
+
+#+begin_src emacs-lisp
+  (use-package org-html-themify
+    :straight
+    (org-html-themify
+     :type git
+     :host github
+     :repo "DogLooksGood/org-html-themify"
+     :files ("*.el" "*.js" "*.css"))
+    :hook (org-mode . org-html-themify-mode)
+    :custom
+    (org-html-themify-themes
+     '((dark . 'doom-solarized-dark)
+       (light . 'nano-base-colors))))
+#+end_src
+
 *** Org-Roam
 
 #+BEGIN_SRC emacs-lisp
