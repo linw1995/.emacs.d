@@ -558,7 +558,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package paredit
     :straight t
     :delight
-    :hook ((emacs-lisp-mode . paredit-mode)
+    :hook ((lisp-data-mode . paredit-mode)
+           (emacs-lisp-mode . paredit-mode)
            (racket-mode . paredit-mode)
            (racket-repl-mode . paredit-mode))
     :config
@@ -1267,7 +1268,8 @@ Use [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to high
   (use-package rainbow-delimiters
     :straight t
     :delight
-    :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
+    :hook ((lisp-data-mode . rainbow-delimiters-mode)
+           (emacs-lisp-mode . rainbow-delimiters-mode)
            (racket-mode . rainbow-delimiters-mode)
            (racket-repl-mode . rainbow-delimiters-mode)))
 #+END_SRC
