@@ -640,6 +640,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
 ** LSP
 
 #+begin_src emacs-lisp
+  (setq lsp-keymap-prefix "C-c l")
   (use-package lsp-mode
     :straight t
     :commands (lsp lsp-deferred)
