@@ -267,13 +267,18 @@ No Tabs by default.
 
 * Key Binding Configuration
 
-*** iTerm Integration
+*** iTerm2 Integration
 
 For avoiding unexpected behavior of key bindings,
 due to the terminal sends incomplete key events,
 we need to configure iTerm key bindings to send escape sequence codes,
 and, the Emacs should parse escape sequence codes sent from iTerm and should emit the actual key events.
 See [[https://stackoverflow.com/a/40222318/7035932][Stackoverflow Answer]] for more details.
+
+More references about this
+
+- [[https://emacs.stackexchange.com/questions/1020/problems-with-keybindings-when-using-terminal][Problems with keybindings when using terminal]]
+- [[https://iterm2.com/documentation-csiu.html][CSI u | Iterm2 Docs]]
 
 #+BEGIN_SRC emacs-lisp
   (defun linw1995/global-map-and-set-key (key command &optional prefix suffix)
