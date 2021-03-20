@@ -287,6 +287,18 @@ See [[https://stackoverflow.com/a/40222318/7035932][Stackoverflow Answer]] for m
      (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 #+END_SRC
 
+Supports mouse input
+
+#+BEGIN_SRC emacs-lisp
+  (unless (display-graphic-p)
+    (require 'mwheel)
+    (require 'mouse)
+    (xterm-mouse-mode t)
+    (mouse-wheel-mode t)
+    (global-set-key [mouse-4] 'next-line)
+    (global-set-key [mouse-5] 'previous-line))
+#+END_SRC
+
 *** Toggle Visibility of Shell Buffer
 
 #+BEGIN_SRC emacs-lisp
