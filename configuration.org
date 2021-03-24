@@ -199,6 +199,8 @@ No Tabs by default.
 
 *** wrap region
 
+- [[https://github.com/rejeep/wrap-region.el][Github repos]]
+
 #+BEGIN_SRC emacs-lisp
   (use-package wrap-region
     :straight (:type git :host github repo "rejeep/wrap-region.el")
