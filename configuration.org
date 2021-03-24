@@ -292,6 +292,15 @@ More references about this
      (define-key function-key-map (concat "\e[emacs-" key) (kbd key)))
 #+END_SRC
 
+*** Without graphic
+
+Supports set-mark-command
+
+#+begin_src emacs-lisp
+  (unless (display-graphic-p)
+    (linw1995/global-map-and-set-key "C-@" 'set-mark-command))
+#+end_src
+
 Supports mouse input
 
 #+BEGIN_SRC emacs-lisp
