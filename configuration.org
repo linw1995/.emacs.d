@@ -688,7 +688,10 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
     :hook ((python-mode
             . (lambda ()
                 (setq python-shell-interpreter
-                      (linw1995/poetry-venv-get-python-executable))
+                      (or (linw1995/poetry-venv-get-python-executable)
+                          (linw1995/pdm-get-python-executable)))
+                (if-let ((extra-path (linw1995/pdm-get-packages-path)))
+                  (setq lsp-python-ms-extra-paths (vector extra-path)))
                 (require 'lsp-python-ms)
                 (lsp-deferred)
                 (when (require 'flycheck nil t)
@@ -806,11 +809,40 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package poetry
     :straight t
     :commands poetry
-    :hook ((python-mode
-            . (lambda ()
-                (setq python-shell-interpreter
-                      (linw1995/poetry-venv-get-python-executable))))))
+    ;; :hook ((python-mode
+    ;;         . (lambda ()
+    ;;             (setq python-shell-interpreter
+    ;;                   (linw1995/poetry-venv-get-python-executable)))))
+    )
 #+END_SRC
+
+*** PDM
+
+#+begin_src emacs-lisp
+  ;; TODO: Cache result
+  (defun linw1995/pdm-get-python-executable (&optional dir)
+    (let ((pdm-get-python-cmd "pdm info --python"))
+      (string-trim
+       (shell-command-to-string
+        (if dir
+            (concat "cd "
+                    dir
+                    " && "
+                    pdm-get-python-cmd)
+          pdm-get-python-cmd)))))
+
+  (defun linw1995/pdm-get-packages-path (&optional dir)
+    (let ((pdm-get-packages-cmd "pdm run bash -c 'printenv PEP582_PACKAGES'"))
+      (concat (string-trim
+               (shell-command-to-string
+                (if dir
+                    (concat "cd "
+                            dir
+                            " && "
+                            pdm-get-packages-cmd)
+                  pdm-get-packages-cmd)))
+              "/lib")))
+#+end_src
 
 *** MISC
 
