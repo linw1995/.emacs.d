@@ -832,7 +832,7 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
           pdm-get-python-cmd)))))
 
   (defun linw1995/pdm-get-packages-path (&optional dir)
-    (let* ((pdm-get-packages-cmd "pdm run bash -c 'printenv PEP582_PACKAGES'")
+    (let* ((pdm-get-packages-cmd "pdm info --package")
            (packages-path (concat (string-trim
                                    (shell-command-to-string
                                     (if dir
