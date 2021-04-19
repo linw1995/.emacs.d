@@ -689,9 +689,12 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
             . (lambda ()
                 (setq python-shell-interpreter
                       (or (linw1995/poetry-venv-get-python-executable)
-                          (linw1995/pdm-get-python-executable)))
-                (if-let ((extra-path (linw1995/pdm-get-packages-path)))
-                  (setq lsp-python-ms-extra-paths (vector extra-path)))
+                          (linw1995/pdm-get-python-executable
+                           (projectile-project-root))))
+                (if-let ((extra-path (linw1995/pdm-get-packages-path
+                                      (projectile-project-root))))
+                  (setq lsp-python-ms-extra-paths
+                        (vector extra-path)))
                 (require 'lsp-python-ms)
                 (lsp-deferred)
                 (when (require 'flycheck nil t)
