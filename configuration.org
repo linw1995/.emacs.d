@@ -257,11 +257,15 @@ No Tabs by default.
 *** Evil
 
 #+begin_src emacs-lisp
+  (use-package undo-fu
+    :straight t)
+
   (use-package evil
     :straight t
     :demand
     :custom
     (evil-want-fine-undo 'fine)
+    (evil-undo-system 'undo-fu)
     :config
     (add-to-list 'evil-emacs-state-modes 'dashboard-mode)
     (evil-mode 1))
