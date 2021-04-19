@@ -43,7 +43,7 @@
  ("lsp-python-ms" . "8d228b0f6dde3a4d1327650c17b21539ff4a08ee")
  ("lsp-treemacs" . "4cfb46d7fe69cc537a8a86389c5d8d9fd3fbfabe")
  ("lsp-ui" . "efae00eb6a733d5271cb33e9d92c3d8c2fa98dde")
- ("magit" . "c7364e169648f454dc73fe50596d827fbf1f0fb7")
+ ("magit" . "15912b65d17c3da6fb7e9817a148904485983408")
  ("magit-delta" . "1164a6c3e501e944f1a6a2e91f15374a193bb8d3")
  ("markdown-mode" . "ac9ea26b941eef512a3c206375a6404625c229ed")
  ("melpa" . "21d32adebc711ffcff2633c5ec4ba4fe58dcb0b5")
