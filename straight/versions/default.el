@@ -10,6 +10,7 @@
  ("emacs-dashboard" . "00f1dc84d3fbaf439d23645aa531eee59e28f688")
  ("emacs-doom-themes" . "4199e74db170200995ee8dfbb55ffae004d6e219")
  ("emacs-htmlize" . "49205105898ba8993b5253beec55d8bddd820a70")
+ ("emacs-libvterm" . "2b1392cb2b14ec5bd0b7355197d5f353aa5d3983")
  ("emacs-neotree" . "98fe21334affaffe2334bf7c987edaf1980d2d0b")
  ("emacs-ob-racket" . "da3526c3a3b9a98ca8633b853ec473fb9c4f20e3")
  ("emacs-python-black" . "a11ca73f6dfcdc125d27ff184496d66bdbd71326")
