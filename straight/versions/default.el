@@ -68,7 +68,7 @@
  ("posframe" . "e93325ad752bc7f595aeff57ffe0420980cabd83")
  ("project" . "4072f35d85bf0a1c669329d66633e4819f497c1c")
  ("projectile" . "5e6fdabd59ec5507c1d54f3b11ee16ddc05821d3")
- ("protobuf" . "b650ea44b10133008baaea7488360c5b95c93c7b")
+ ("protobuf" . "c05e7ad0a8fd99b0e8fb452158442831be3bd3df")
  ("pyvenv" . "045ff9476dac26086a04538d9b7ba186aa8f0fd1")
  ("racket-mode" . "f2dfd5741db88fc311392d173a9d1d8a46448037")
  ("rainbow-delimiters" . "d576e6694ad3a3e88b2bb1363305b38fa364c149")
