@@ -617,7 +617,8 @@ Using =define-paredit-pair= macro to define full-width round, square and curly p
   (use-package magit
     :straight t
     :init
-    (global-set-key (kbd "C-x g") 'magit-status))
+    (global-set-key (kbd "C-x g") 'magit-status)
+    (setq magit-bind-magit-project-status nil))
   
   (use-package magit-delta
     :straight t
