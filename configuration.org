@@ -1155,6 +1155,13 @@ Need to install [[https://github.com/rust-lang/rls][rls]] package.
     :hook ((rustic-mode . lsp-deferred)))
 #+end_src
 
+** Protobuf
+
+#+BEGIN_SRC emacs-lisp
+  (use-package protobuf-mode
+    :straight t)
+#+END_SRC
+
 ** MISC
 
 #+BEGIN_SRC emacs-lisp
